@@ -21,188 +21,344 @@
         }
       }
 
-      function addClass() {
-        const w = window.innerWidth;
-        const e = document.querySelector("#classList");
-        let div = document.createElement("div");
-        if (w < 500) {
-          div.classList.add("px-3", "py-1");
-        } else {
-          div.classList.add("input-group", "px-3", "py-1");
+      // function addClass() {
+      //   const w = window.innerWidth;
+      //   const e = document.querySelector("#classList");
+      //   let div = document.createElement("div");
+      //   if (w < 500) {
+      //     div.classList.add("px-3", "py-1");
+      //   } else {
+      //     div.classList.add("input-group", "px-3", "py-1");
+      //   }
+
+      //   let span = document.createElement("span");
+      //   span.classList.add("input-group-text");
+      //   span.textContent = "課程名稱";
+      //   div.appendChild(span);
+
+      //   let input = document.createElement("input");
+      //   input.classList.add("form-control");
+      //   div.appendChild(input);
+
+      //   span = document.createElement("span");
+      //   span.classList.add("input-group-text");
+      //   span.textContent = "課程時段";
+      //   div.appendChild(span);
+
+      //   input = document.createElement("input");
+      //   input.classList.add("form-control");
+      //   div.appendChild(input);
+
+      //   let button = document.createElement("button");
+      //   button.classList.add("btn", "btn-outline-danger");
+      //   button.textContent = "刪除";
+      //   button.addEventListener("click", (event) => {
+      //     const element = event.target.parentElement;
+      //     element.remove();
+      //   });
+      //   if (w < 500) {
+      //     button.style.width = "100%";
+      //   }
+      //   div.appendChild(button);
+
+      //   e.appendChild(div);
+      // }
+
+      // function addFamily() {
+      //   const w = window.innerWidth;
+      //   const e = document.querySelector("#familyList");
+      //   let div = document.createElement("div");
+      //   div.classList.add("px-3", "py-1");
+
+      //   let inputGroup = document.createElement("div");
+      //   if (w > 500) {
+      //     inputGroup.classList.add("input-group");
+      //   }
+      //   div.appendChild(inputGroup);
+
+      //   let span = document.createElement("span");
+      //   span.classList.add("input-group-text");
+      //   span.textContent = "關係";
+      //   inputGroup.appendChild(span);
+
+      //   let select = document.createElement("select");
+      //   select.classList.add("form-select");
+      //   // select.setAttribute("id")
+      //   inputGroup.appendChild(select);
+
+      //   let option = document.createElement("option");
+      //   option.value = 0;
+      //   option.textContent = "兄";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 1;
+      //   option.textContent = "弟";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 2;
+      //   option.textContent = "姊";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 3;
+      //   option.textContent = "妹";
+      //   select.appendChild(option);
+
+      //   span = document.createElement("span");
+      //   span.classList.add("input-group-text");
+      //   span.textContent = "姓名";
+      //   inputGroup.appendChild(span);
+
+      //   input = document.createElement("input");
+      //   input.classList.add("form-control");
+      //   inputGroup.appendChild(input);
+
+      //   // 下部分
+      //   inputGroup = document.createElement("div");
+      //   if (w > 500) {
+      //     inputGroup.classList.add("input-group");
+      //   }
+      //   div.appendChild(inputGroup);
+
+      //   span = document.createElement("span");
+      //   span.classList.add("input-group-text");
+      //   span.textContent = "就讀學校";
+      //   inputGroup.appendChild(span);
+
+      //   input = document.createElement("input");
+      //   input.classList.add("form-control");
+      //   inputGroup.appendChild(input);
+
+      //   span = document.createElement("span");
+      //   span.classList.add("input-group-text");
+      //   span.textContent = "年級";
+      //   inputGroup.appendChild(span);
+
+      //   select = document.createElement("select");
+      //   select.classList.add("form-select");
+      //   // select.setAttribute("id")
+      //   inputGroup.appendChild(select);
+
+      //   option = document.createElement("option");
+      //   option.value = 0;
+      //   option.textContent = "幼大班";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 1;
+      //   option.textContent = "國小一年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 2;
+      //   option.textContent = "國小二年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 3;
+      //   option.textContent = "國小三年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 4;
+      //   option.textContent = "國小四年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 5;
+      //   option.textContent = "國小五年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 6;
+      //   option.textContent = "國小六年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 7;
+      //   option.textContent = "國中一年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 8;
+      //   option.textContent = "國中二年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 9;
+      //   option.textContent = "國中三年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 10;
+      //   option.textContent = "高中一年級";
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 11;
+      //   option.textContent = "高中二年級";
+      //   select.appendChild(option);
+      //   select.appendChild(option);
+      //   option = document.createElement("option");
+      //   option.value = 12;
+      //   option.textContent = "高中三年級";
+      //   select.appendChild(option);
+
+      //   let button = document.createElement("button");
+      //   button.classList.add("btn", "btn-outline-danger");
+      //   button.textContent = "刪除";
+      //   button.addEventListener("click", (event) => {
+      //     const element = event.target.parentElement;
+      //     element.remove();
+      //   });
+      //   button.style.width = "100%";
+      //   div.appendChild(button);
+
+      //   e.appendChild(div);
+      // }
+
+      async function submit() {
+        // 基本資料
+        const student_name = document.querySelector("#student_name").value || null;
+        if (!student_name) {
+          alert("請填寫學生姓名");
+          return;
+        }
+        const student_name_en = document.querySelector("#student_name_en").value || null;
+        const student_mobile = document.querySelector("#student_mobile").value || null;
+        const school = document.querySelector("#school").value || null;
+        const grade = document.querySelector("#grade").value || null;
+        const tel = document.querySelector("#tel").value || null;
+        const address = document.querySelector("#address").value || null;
+        const father_name = document.querySelector("#father_name").value || null;
+        const father_mobile = document.querySelector("#father_mobile").value || null;
+        const father_profession = document.querySelector("#father_profession").value || null;
+        const father_office_tel = document.querySelector("#father_office_tel").value || null;
+        const mother_name = document.querySelector("#mother_name").value || null;
+        const mother_mobile = document.querySelector("#mother_mobile").value || null;
+        const mother_profession = document.querySelector("#mother_profession").value || null;
+        const mother_office_tel = document.querySelector("#mother_office_tel").value || null;
+        const holiday_time = document.querySelector("#holiday_time").value || null;
+        const Weekday_time = document.querySelector("#Weekday_time").value || null;
+        const brother1 = document.querySelector("#brother1").value || null;
+        const brother1_grade = document.querySelector("#brother1_grade").value || null;
+        const brother2 = document.querySelector("#brother2").value || null;
+        const brother2_grade = document.querySelector("#brother2_grade").value || null;
+
+        // 興趣班級
+        const course_list_selected = document.querySelectorAll(".course_list");
+        const course_list = [];
+        course_list_selected.forEach((item) => {
+          if (item.checked || (item.type == "text" && item.value != "")) {
+            course_list.push({
+              "course_name": item.value || null
+            });
+          }
+        })
+
+        // 問班來源
+        const source_list_selected = document.querySelectorAll(".course_list");
+        const source_list = [];
+        source_list_selected.forEach((item) => {
+          if (item.checked || (item.type == "text" && item.value != "")) {
+            source_list.push({
+              "source_name": item.value || null
+            });
+          }
+        })
+
+        // 學生狀況
+        const exam_ranking = document.querySelector("#exam_ranking").value || null;
+        const exam_ranking1 = document.querySelector("#exam_ranking1").value || null;
+        const exam_ranking2 = document.querySelector("#exam_ranking2").value || null;
+        const chinese_score = document.querySelector("#chinese_score").value || null;
+        const math_score = document.querySelector("#math_score").value || null;
+        const english_score = document.querySelector("#english_score").value || null;
+        const english_listening = document.querySelector("input[name='english_listening']:checked") ? document.querySelector("input[name='english_listening']:checked").value : null;
+        const enature_score = document.querySelector("#enature_score").value || null;
+        const biology_score = document.querySelector("#biology_score").value || null;
+        const physics_score = document.querySelector("#physics_score").value || null;
+        const chemical_score = document.querySelector("#chemical_score").value || null;
+        const earth_science_score = document.querySelector("#earth_science_score").value || null;
+        const physics_chemical_score = document.querySelector("#physics_chemical_score").value || null;
+        const social_score = document.querySelector("#social_score").value || null;
+        const geography_score = document.querySelector("#geography_score").value || null;
+        const history_score = document.querySelector("#history_score").value || null;
+        const civics_score = document.querySelector("#civics_score").value || null;
+
+        // 課程表
+        const activity_status1 = document.querySelector("#activity_status1").value || null;
+        const activity_status2 = document.querySelector("#activity_status2").value || null;
+        const activity_status3 = document.querySelector("#activity_status3").value || null;
+        const activity_status4 = document.querySelector("#activity_status4").value || null;
+        const activity_status5 = document.querySelector("#activity_status5").value || null;
+        const activity_status6_1 = document.querySelector("#activity_status6_1").value || null;
+        const activity_status6_2 = document.querySelector("#activity_status6_2").value || null;
+        const activity_status6_3 = document.querySelector("#activity_status6_3").value || null;
+        const activity_status7_1 = document.querySelector("#activity_status7_1").value || null;
+        const activity_status7_2 = document.querySelector("#activity_status7_2").value || null;
+        const activity_status7_3 = document.querySelector("#activity_status7_3").value || null;
+        const inquiry_method = document.querySelector("input[name='inquiry_method']:checked") ? document.querySelector("input[name='inquiry_method']:checked").value : null;
+        const reception = document.querySelector("#reception").value || null;
+
+        const info = {
+          student_name,
+          student_name_en,
+          student_mobile,
+          tel,
+          school,
+          grade,
+          address,
+          brother1,
+          brother1_grade,
+          brother2,
+          brother2_grade,
+          father_name,
+          father_mobile,
+          father_office_tel,
+          father_profession,
+          mother_name,
+          mother_mobile,
+          mother_office_tel,
+          mother_profession,
+          holiday_time,
+          Weekday_time,
+          // Remark,
+          // course_extend,
+          exam_ranking,
+          exam_ranking1,
+          exam_ranking2,
+          chinese_score,
+          math_score,
+          english_score,
+          english_listening,
+          enature_score,
+          biology_score,
+          physics_score,
+          chemical_score,
+          earth_science_score,
+          physics_chemical_score,
+          social_score,
+          geography_score,
+          history_score,
+          civics_score,
+          activity_status1,
+          activity_status2,
+          activity_status3,
+          activity_status4,
+          activity_status5,
+          activity_status6_1,
+          activity_status6_2,
+          activity_status6_3,
+          activity_status7_1,
+          activity_status7_2,
+          activity_status7_3,
+          inquiry_method,
+          reception,
+          course_list,
+          source_list
         }
 
-        let span = document.createElement("span");
-        span.classList.add("input-group-text");
-        span.textContent = "課程名稱";
-        div.appendChild(span);
-
-        let input = document.createElement("input");
-        input.classList.add("form-control");
-        div.appendChild(input);
-
-        span = document.createElement("span");
-        span.classList.add("input-group-text");
-        span.textContent = "課程時段";
-        div.appendChild(span);
-
-        input = document.createElement("input");
-        input.classList.add("form-control");
-        div.appendChild(input);
-
-        let button = document.createElement("button");
-        button.classList.add("btn", "btn-outline-danger");
-        button.textContent = "刪除";
-        button.addEventListener("click", (event) => {
-          const element = event.target.parentElement;
-          element.remove();
-        });
-        if (w < 500) {
-          button.style.width = "100%";
+        const url = "http://172.16.150.25:8081/api"
+        const config = {
+          method: "POST",
+          headers :{
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info)
         }
-        div.appendChild(button);
-
-        e.appendChild(div);
-      }
-
-      function addFamily() {
-        const w = window.innerWidth;
-        const e = document.querySelector("#familyList");
-        let div = document.createElement("div");
-        div.classList.add("px-3", "py-1");
-
-        let inputGroup = document.createElement("div");
-        if (w > 500) {
-          inputGroup.classList.add("input-group");
+        const response = await fetch(`${url}/askacademy`, config);
+        if (response.ok) {
+          window.location.reload()
         }
-        div.appendChild(inputGroup);
-
-        let span = document.createElement("span");
-        span.classList.add("input-group-text");
-        span.textContent = "關係";
-        inputGroup.appendChild(span);
-
-        let select = document.createElement("select");
-        select.classList.add("form-select");
-        // select.setAttribute("id")
-        inputGroup.appendChild(select);
-
-        let option = document.createElement("option");
-        option.value = 0;
-        option.textContent = "兄";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 1;
-        option.textContent = "弟";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 2;
-        option.textContent = "姊";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 3;
-        option.textContent = "妹";
-        select.appendChild(option);
-
-        span = document.createElement("span");
-        span.classList.add("input-group-text");
-        span.textContent = "姓名";
-        inputGroup.appendChild(span);
-
-        input = document.createElement("input");
-        input.classList.add("form-control");
-        inputGroup.appendChild(input);
-
-        // 下部分
-        inputGroup = document.createElement("div");
-        if (w > 500) {
-          inputGroup.classList.add("input-group");
-        }
-        div.appendChild(inputGroup);
-
-        span = document.createElement("span");
-        span.classList.add("input-group-text");
-        span.textContent = "就讀學校";
-        inputGroup.appendChild(span);
-
-        input = document.createElement("input");
-        input.classList.add("form-control");
-        inputGroup.appendChild(input);
-
-        span = document.createElement("span");
-        span.classList.add("input-group-text");
-        span.textContent = "年級";
-        inputGroup.appendChild(span);
-
-        select = document.createElement("select");
-        select.classList.add("form-select");
-        // select.setAttribute("id")
-        inputGroup.appendChild(select);
-
-        option = document.createElement("option");
-        option.value = 0;
-        option.textContent = "幼大班";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 1;
-        option.textContent = "國小一年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 2;
-        option.textContent = "國小二年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 3;
-        option.textContent = "國小三年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 4;
-        option.textContent = "國小四年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 5;
-        option.textContent = "國小五年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 6;
-        option.textContent = "國小六年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 7;
-        option.textContent = "國中一年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 8;
-        option.textContent = "國中二年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 9;
-        option.textContent = "國中三年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 10;
-        option.textContent = "高中一年級";
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 11;
-        option.textContent = "高中二年級";
-        select.appendChild(option);
-        select.appendChild(option);
-        option = document.createElement("option");
-        option.value = 12;
-        option.textContent = "高中三年級";
-        select.appendChild(option);
-
-        let button = document.createElement("button");
-        button.classList.add("btn", "btn-outline-danger");
-        button.textContent = "刪除";
-        button.addEventListener("click", (event) => {
-          const element = event.target.parentElement;
-          element.remove();
-        });
-        button.style.width = "100%";
-        div.appendChild(button);
-
-        e.appendChild(div);
       }
     </script>
     <title>問班表格</title>
@@ -213,70 +369,108 @@
     <div class="border rounded border-3 p-md-5 p-2 m-md-5 m-2">
       <h1 class="text-center">多易文理補習班</h1>
       <h3 class="text-center">學生資料表</h3>
-      <div class="input-group p-3">
+      <h3 class="p-2">基本資料</h3>
+      <div class="input-group p-1">
         <span class="input-group-text">學生姓名</span>
-        <input type="text" aria-label="chinese name" class="form-control" />
+        <input type="text" aria-label="student_name" id="student_name" class="form-control" />
         <span class="input-group-text">英文名子</span>
-        <input type="text" aria-label="english name" class="form-control" />
+        <input type="text" aria-label="student_name_en" id="student_name_en" class="form-control" />
+        <span class="input-group-text">學生手機</span>
+        <input type="text" aria-label="student_mobile" id="student_mobile" class="form-control" />
       </div>
-      <div class="input-group p-3">
+      <div class="input-group p-1">
         <span class="input-group-text">就讀學校</span>
-        <input type="text" aria-label="school" class="form-control" />
+        <input type="text" aria-label="school" id="school" class="form-control" />
         <span class="input-group-text">年級</span>
-        <select class="form-select" id="inputGroupSelect01">
-          <option value="0">幼大班</option>
-          <option value="1">國小一年級</option>
-          <option value="2">國小二年級</option>
-          <option value="3">國小三年級</option>
-          <option value="4">國小四年級</option>
-          <option value="5">國小五年級</option>
-          <option value="6">國小六年級</option>
-          <option value="7">國中一年級</option>
-          <option value="8">國中二年級</option>
-          <option value="9">國中三年級</option>
-          <option value="10">高中一年級</option>
-          <option value="11">高中二年級</option>
-          <option value="12">高中三年級</option>
+        <select class="form-select" id="grade">
+          <option value=""></option>
+          <option value="幼大班">幼大班</option>
+          <option value="國小一年級">國小一年級</option>
+          <option value="國小二年級">國小二年級</option>
+          <option value="國小三年級">國小三年級</option>
+          <option value="國小四年級">國小四年級</option>
+          <option value="國小五年級">國小五年級</option>
+          <option value="國小六年級">國小六年級</option>
+          <option value="國中一年級">國中一年級</option>
+          <option value="國中二年級">國中二年級</option>
+          <option value="國中三年級">國中三年級</option>
+          <option value="高中一年級">高中一年級</option>
+          <option value="高中二年級">高中二年級</option>
+          <option value="高中三年級">高中三年級</option>
         </select>
       </div>
-      <div class="input-group p-3">
-        <span class="input-group-text">LINE ID</span>
-        <input type="text" aria-label="LINE ID" class="form-control" />
+      <div class="input-group p-1">
+        <span class="input-group-text">市話</span>
+        <input type="text" aria-label="tel" id="tel" class="form-control" />
+        <span class="input-group-text">地址</span>
+        <input type="text" aria-label="address" id="address" class="form-control" />
       </div>
-      <div class="input-group p-3">
-        <span class="input-group-text">家長姓名</span>
-        <input type="text" aria-label="parents" class="form-control" />
+      <div class="input-group p-1">
+        <span class="input-group-text">父親姓名</span>
+        <input type="text" aria-label="father_name" id="father_name" class="form-control" />
         <span class="input-group-text">連絡電話</span>
-        <input type="text" aria-label="tel" class="form-control" />
+        <input type="text" aria-label="father_mobile" id="father_mobile" class="form-control" />
+        <span class="input-group-text">職業</span>
+        <input type="text" aria-label="father_profession" id="father_profession" class="form-control" />
+        <span class="input-group-text">公司電話</span>
+        <input type="text" aria-label="father_office_tel" id="father_office_tel" class="form-control" />
       </div>
-      <div class="input-group p-3">
+      <div class="input-group p-1">
+        <span class="input-group-text">母親姓名</span>
+        <input type="text" aria-label="mother_name" id="mother_name" class="form-control" />
+        <span class="input-group-text">連絡電話</span>
+        <input type="text" aria-label="mother_mobile" id="mother_mobile" class="form-control" />
+        <span class="input-group-text">職業</span>
+        <input type="text" aria-label="mother_profession" id="mother_profession" class="form-control" />
+        <span class="input-group-text">公司電話</span>
+        <input type="text" aria-label="mother_office_tel" id="mother_office_tel" class="form-control" />
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">假日連絡時間</span>
+        <input type="text" aria-label="holiday_time" id="holiday_time" class="form-control" />
+        <span class="input-group-text">平日連絡時間</span>
+        <input type="text" aria-label="Weekday_time" id="Weekday_time" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">有興趣的班別</span>
         <div class="form-control">
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_chinese" />
-            <label class="form-check-label" for="class_chinese"> 國 </label>
+            <input class="form-check-input course_list" type="checkbox" value="國文" id="class_chinese" />
+            <label class="form-check-label" for="class_chinese"> 國文 </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_math" />
-            <label class="form-check-label" for="class_math"> 數 </label>
+            <input class="form-check-input course_list" type="checkbox" value="數學" id="class_math" />
+            <label class="form-check-label" for="class_math"> 數學 </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_english" />
-            <label class="form-check-label" for="class_english"> 英 </label>
+            <input class="form-check-input course_list" type="checkbox" value="英文" id="class_english" />
+            <label class="form-check-label" for="class_english"> 英文 </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_social" />
-            <label class="form-check-label" for="class_social"> 社 </label>
+            <input class="form-check-input course_list" type="checkbox" value="社會" id="class_social" />
+            <label class="form-check-label" for="class_social"> 社會 </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_natural" />
-            <label class="form-check-label" for="class_natural"> 自 </label>
+            <input class="form-check-input course_list" type="checkbox" value="物理" id="class_natural" />
+            <label class="form-check-label" for="class_natural"> 物理 </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input course_list" type="checkbox" value="化學" id="class_chemistry" />
+            <label class="form-check-label" for="class_chemistry"> 化學 </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input course_list" type="checkbox" value="生物" id="class_biology" />
+            <label class="form-check-label" for="class_biology"> 生物 </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input course_list" type="checkbox" value="地科" id="class_earthScience" />
+            <label class="form-check-label" for="class_earthScience"> 地科 </label>
           </div>
         </div>
         <span class="input-group-text">其他</span>
-        <input type="text" aria-label="tel" class="form-control" />
+        <input type="text" aria-label="class_other" class="form-control course_list" />
       </div>
-      <div class="input-group p-3">
+      <!-- <div class="input-group p-1">
         <span class="input-group-text">目前有無其他課程</span>
         <div class="form-control">
           <input class="form-check-input" type="checkbox" value="" id="yes" />
@@ -289,59 +483,270 @@
             新增敘述
           </button>
         </div>
-      </div>
-      <div id="classList"></div>
-      <div class="input-group p-3">
+      </div> -->
+      <!-- <div id="classList"></div> -->
+      <div class="input-group p-1">
         <span class="input-group-text">其他兄弟姊妹</span>
         <div class="form-control">
-          <button style="width: 100%" class="btn btn-outline-success" type="button" onclick="addFamily()">
-            新增人員
-          </button>
+          <div class="input-group p-1">
+            <span class="input-group-text">兄姐姓名</span>
+            <input type="text" aria-label="brother1" id="brother1" class="form-control" />
+            <!-- <span class="input-group-text">就讀學校</span>
+            <input type="text" aria-label="school" id="school" class="form-control" /> -->
+            <span class="input-group-text">年級</span>
+            <select class="form-select" id="brother1_grade">
+              <option value=""></option>
+              <option value="幼大班">幼大班</option>
+              <option value="國小一年級">國小一年級</option>
+              <option value="國小二年級">國小二年級</option>
+              <option value="國小三年級">國小三年級</option>
+              <option value="國小四年級">國小四年級</option>
+              <option value="國小五年級">國小五年級</option>
+              <option value="國小六年級">國小六年級</option>
+              <option value="國中一年級">國中一年級</option>
+              <option value="國中二年級">國中二年級</option>
+              <option value="國中三年級">國中三年級</option>
+              <option value="高中一年級">高中一年級</option>
+              <option value="高中二年級">高中二年級</option>
+              <option value="高中三年級">高中三年級</option>
+            </select>
+          </div>
+          <div class="input-group p-1">
+            <span class="input-group-text">弟妹姓名</span>
+            <input type="text" aria-label="brother2" id="brother2" class="form-control" />
+            <!-- <span class="input-group-text">就讀學校</span>
+            <input type="text" aria-label="school" id="school" class="form-control" /> -->
+            <span class="input-group-text">年級</span>
+            <select class="form-select" id="brother2_grade">
+              <option value=""></option>
+              <option value="幼大班">幼大班</option>
+              <option value="國小一年級">國小一年級</option>
+              <option value="國小二年級">國小二年級</option>
+              <option value="國小三年級">國小三年級</option>
+              <option value="國小四年級">國小四年級</option>
+              <option value="國小五年級">國小五年級</option>
+              <option value="國小六年級">國小六年級</option>
+              <option value="國中一年級">國中一年級</option>
+              <option value="國中二年級">國中二年級</option>
+              <option value="國中三年級">國中三年級</option>
+              <option value="高中一年級">高中一年級</option>
+              <option value="高中二年級">高中二年級</option>
+              <option value="高中三年級">高中三年級</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div id="familyList"></div>
-      <div class="input-group p-3">
+      <div class="input-group p-1">
         <span class="input-group-text">如何得知本班資訊</span>
         <div class="form-control">
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_chinese" />
-            <label class="form-check-label" for="class_chinese">
-              官方網站
+            <input class="form-check-input source_list" type="checkbox" value="親友介紹" id="source1" />
+            <label class="form-check-label" for="source1">
+              親友介紹
             </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_math" />
-            <label class="form-check-label" for="class_math">
-              FACEBOOK
+            <input class="form-check-input source_list" type="checkbox" value="校園DM" id="source2" />
+            <label class="form-check-label" for="source2">
+              校園DM
             </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_english" />
-            <label class="form-check-label" for="class_english"> LINE </label>
+            <input class="form-check-input source_list" type="checkbox" value="寄發DM" id="source3" />
+            <label class="form-check-label" for="source3"> 寄發DM </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_social" />
-            <label class="form-check-label" for="class_social"> 路過 </label>
+            <input class="form-check-input source_list" type="checkbox" value="簡訊" id="source4" />
+            <label class="form-check-label" for="source4"> 簡訊 </label>
           </div>
           <div class="nowrap">
-            <input class="form-check-input" type="checkbox" value="" id="class_natural" />
-            <label class="form-check-label" for="class_natural">
-              Google 地圖
+            <input class="form-check-input source_list" type="checkbox" value="多易文教網站" id="source5" />
+            <label class="form-check-label" for="source5">
+              多易文教網站
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="Google 表單" id="source6" />
+            <label class="form-check-label" for="source6">
+              Google 表單
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="FaceBook" id="source7" />
+            <label class="form-check-label" for="source7">
+              FaceBook
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="關鍵字搜尋" id="source8" />
+            <label class="form-check-label" for="source8">
+              關鍵字搜尋
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="電推" id="source9" />
+            <label class="form-check-label" for="source9">
+              電推
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="LINE" id="source10" />
+            <label class="form-check-label" for="source10">
+              LINE
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="路過" id="source11" />
+            <label class="form-check-label" for="source11">
+              路過
             </label>
           </div>
         </div>
         <span class="input-group-text">其他</span>
-        <input type="text" aria-label="tel" class="form-control" />
+        <input type="text" aria-label="source12" class="form-control source_list" />
       </div>
-      <div class="input-group p-3">
+      <h3 class="p-2">學生狀況</h3>
+      <div class="input-group p-1">
+        <span class="input-group-text">段考校排</span>
+        <input type="text" aria-label="exam_ranking" id="exam_ranking" class="form-control" />
+        <span class="input-group-text">模擬考校排</span>
+        <input type="text" aria-label="exam_ranking1" id="exam_ranking1" class="form-control" />
+        <span class="input-group-text">模擬考區排</span>
+        <input type="text" aria-label="exam_ranking2" id="exam_ranking2" class="form-control" />
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">國文成績</span>
+        <input type="text" aria-label="chinese_score" id="chinese_score" class="form-control" />
+        <span class="input-group-text">數學成績</span>
+        <input type="text" aria-label="math_score" id="math_score" class="form-control" />
+        <span class="input-group-text">英文成績</span>
+        <input type="text" aria-label="english_score" id="english_score" class="form-control" />
+        <span class="input-group-text">英聽成績</span>
+        <div class="form-control">
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" name="english_listening" value="3"
+              id="english_listening_good" />
+            <label class="form-check-label" for="english_listening_good">
+              強
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" name="english_listening" value="2" id="english_listening_so" />
+            <label class="form-check-label" for="english_listening_so">
+              中
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" name="english_listening" value="1"
+              id="english_listening_bad" />
+            <label class="form-check-label" for="english_listening_bad">
+              弱
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">自然成績</span>
+        <input type="text" id="enature_score" aria-label="enature_score" class="form-control" />
+        <span class="input-group-text">生物成績</span>
+        <input type="text" id="biology_score" aria-label="biology_score" class="form-control" />
+        <span class="input-group-text">物理成績</span>
+        <input type="text" id="physics_score" aria-label="physics_score" class="form-control" />
+        <span class="input-group-text">化學成績</span>
+        <input type="text" id="chemical_score" aria-label="chemical_score" class="form-control" />
+        <span class="input-group-text">地科成績</span>
+        <input type="text" id="earth_science_score" aria-label="earth_science_score" class="form-control" />
+        <span class="input-group-text">理化成績</span>
+        <input type="text" id="physics_chemical_score" aria-label="physics_chemical_score" class="form-control" />
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">社會成績</span>
+        <input type="text" id="social_score" aria-label="social_score" class="form-control" />
+        <span class="input-group-text">地理成績</span>
+        <input type="text" id="geography_score" aria-label="geography_score" class="form-control" />
+        <span class="input-group-text">歷史成績</span>
+        <input type="text" id="history_score" aria-label="history_score" class="form-control" />
+        <span class="input-group-text">公民成績</span>
+        <input type="text" id="civics_score" aria-label="civics_score" class="form-control" />
+      </div>
+      <h3 class="p-2">課程表</h3>
+      <div class="input-group p-1">
+        <span class="input-group-text">星期一</span>
+        <input type="text" id="activity_status1" aria-label="activity_status1" class="form-control" />
+        <span class="input-group-text">星期二</span>
+        <input type="text" id="activity_status2" aria-label="activity_status2" class="form-control" />
+        <span class="input-group-text">星期三</span>
+        <input type="text" id="activity_status3" aria-label="activity_status3" class="form-control" />
+        <span class="input-group-text">星期四</span>
+        <input type="text" id="activity_status4" aria-label="activity_status4" class="form-control" />
+        <span class="input-group-text">星期五</span>
+        <input type="text" id="activity_status5" aria-label="activity_status5" class="form-control" />
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">星期六-早</span>
+        <input type="text" id="activity_status6_1" aria-label="activity_status6_1" class="form-control" />
+        <span class="input-group-text">星期六-中</span>
+        <input type="text" id="activity_status6_2" aria-label="activity_status6_2" class="form-control" />
+        <span class="input-group-text">星期六-晚</span>
+        <input type="text" id="activity_status6_3" aria-label="activity_status6_3" class="form-control" />
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">星期日-早</span>
+        <input type="text" id="activity_status7_1" aria-label="activity_status7_1" class="form-control" />
+        <span class="input-group-text">星期日-中</span>
+        <input type="text" id="activity_status7_2" aria-label="activity_status7_2" class="form-control" />
+        <span class="input-group-text">星期日-晚</span>
+        <input type="text" id="activity_status7_3" aria-label="activity_status7_3" class="form-control" />
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">詢班方式</span>
+        <div class="form-control">
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" value="電話" name="inquiry_method" id="inquiry_tel" />
+            <label class="form-check-label" for="inquiry_tel">
+              電話
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" value="現場" name="inquiry_method" id="inquiry_live" />
+            <label class="form-check-label" for="inquiry_live">
+              現場
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" value="E-MAIL" name="inquiry_method" id="inquiry_mail" />
+            <label class="form-check-label" for="inquiry_mail">
+              E-MAIL
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" value="官網" name="inquiry_method" id="inquiry_web" />
+            <label class="form-check-label" for="inquiry_web">
+              官網
+            </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input" type="radio" value="其他" name="inquiry_method" id="inquiry_other" />
+            <label class="form-check-label" for="inquiry_other">
+              其他
+            </label>
+          </div>
+        </div>
+        <span class="input-group-text">接待老師</span>
+        <input type="text" aria-label="reception" id="reception" class="form-control" />
+      </div>
+      <!-- <div class="input-group p-1">
         <span class="input-group-text">介紹人</span>
         <input type="text" aria-label="LINE ID" class="form-control" />
       </div>
-      <div class="input-group p-3">
+      <div class="input-group p-1">
         <span class="input-group-text">備註</span>
         <input type="text" aria-label="LINE ID" class="form-control" />
-      </div>
+      </div> -->
       <p class="px-3 link-danger">已同意本表單收集之個人資料使用權，僅於「多易文理補習班」使用，非經當事人同意，不轉作其他用途。</p>
+      <div class="d-grid gap-2">
+        <button type="button" class="btn btn-success" onclick="submit()">儲存</button>
+      </div>
     </div>
   </div>
 </body>
