@@ -116,6 +116,11 @@
       link.click();
     }
 
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
     // 切换模式
     function toggleMode() {
       isErasing = !isErasing;
