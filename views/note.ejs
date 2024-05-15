@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%-include('head') %>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      canvas {
+        display: block;
+        background-color: white;
+      }
+    </style>
+</head>
+
+<body>
+  <canvas id="myCanvas"></canvas>
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <select id="size" class="form-select form-select btn btn-outline-primary p-4" aria-label="Small select example"
+      onchange="sizeChange()">
+      <option value="5" selected>筆尖大小：5</option>
+      <option value="10">筆尖大小：10</option>
+      <option value="15">筆尖大小：15</option>
+      <option value="20">筆尖大小：20</option>
+    </select>
+    <button id="drawButton" type="button" class="btn btn-outline-primary text-nowrap">橡皮擦：🧽</button>
+  </div>
+  <button id="saveButton" type="button" class="btn btn-outline-success p-4">儲存</button>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let isErasing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let size = document.querySelector('#size').value;
+
+    function sizeChange() {
+      size = document.querySelector('#size').value;
+    }
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * 0.9;
+
+    // 監聽點擊瞬間
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('touchstart', startDrawing);
+
+    function startDrawing(event) {
+      event.preventDefault();
+      if (event.type === 'mousedown' || (event.type === 'touchstart' && event.touches.length === 1)) {
+        const { offsetX, offsetY } = getOffset(event);
+        if (event.type === 'touchstart') {
+          event = event.touches[0];
+        }
+        if (event.button === 0) { // 左键或触摸
+          isDrawing = true;
+          [lastX, lastY] = [offsetX, offsetY];
+        } else if (event.button === 2) { // 右键或触摸（橡皮擦）
+          isErasing = true;
+          erase(offsetX, offsetY);
+        }
+      }
+    }
+
+    // 繪圖
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('touchmove', draw);
+
+    function draw(event) {
+      event.preventDefault();
+      if (isDrawing && event.buttons === 1) { // 鼠标左键按下
+        const { offsetX, offsetY } = getOffset(event);
+        ctx.strokeStyle = isErasing ? 'white' : 'black';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = size;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(offsetX, offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [offsetX, offsetY];
+      }
+    }
+
+    // 點擊結束
+    // canvas.addEventListener('mouseup', endDrawing);
+    // canvas.addEventListener('touchend', endDrawing);
+
+    // function endDrawing(event) {
+    //   isDrawing = false;
+    //   isErasing = false;
+    // }
+
+    // 事件在 Canvas 中的偏移位置
+    function getOffset(event) {
+      const rect = canvas.getBoundingClientRect();
+      const offsetX = event.clientX - rect.left;
+      const offsetY = event.clientY - rect.top;
+      return { offsetX, offsetY };
+    }
+
+    // 保存 Canvas 内容
+    function saveAsImage() {
+      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      const link = document.createElement('a');
+      link.download = 'text_image.png';
+      link.href = image;
+      link.click();
+    }
+
+    // 切换模式
+    function toggleMode() {
+      isErasing = !isErasing;
+      document.getElementById('drawButton').textContent = isErasing ? '書寫模式：✏️' : '橡皮擦：🧽';
+    }
+
+    document.getElementById('saveButton').addEventListener('click', saveAsImage);
+    document.getElementById('drawButton').addEventListener('click', toggleMode);
+  </script>
+</body>
+
+</html>
