@@ -60,13 +60,9 @@
         if (event.type === 'touchstart') {
           event = event.touches[0];
         }
-        if (event.button === 0) { // 左键或触摸
-          isDrawing = true;
-          [lastX, lastY] = [offsetX, offsetY];
-        } else if (event.button === 2) { // 右键或触摸（橡皮擦）
-          isErasing = true;
-          erase(offsetX, offsetY);
-        }
+        console.log(event)
+        isDrawing = true;
+        [lastX, lastY] = [offsetX, offsetY];
       }
     }
 
@@ -76,7 +72,12 @@
 
     function draw(event) {
       event.preventDefault();
-      if (isDrawing && event.buttons === 1) { // 鼠标左键按下
+      let isWeb = event.type === 'mousemove' ? event.buttons === 1 : true
+      if (event.type === 'touchmove') {
+        event = event.touches[0]
+      }
+
+      if (isDrawing && isWeb) { // 鼠标左键按下
         const { offsetX, offsetY } = getOffset(event);
         ctx.strokeStyle = isErasing ? 'white' : 'black';
         ctx.lineJoin = 'round';
@@ -90,6 +91,19 @@
       }
     }
 
+    // 事件在 Canvas 中的偏移位置
+    function getOffset(event) {
+      const rect = canvas.getBoundingClientRect();
+      const offsetX = event.clientX - rect.left;
+      const offsetY = event.clientY - rect.top;
+      return { offsetX, offsetY };
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
     // 點擊結束
     // canvas.addEventListener('mouseup', endDrawing);
     // canvas.addEventListener('touchend', endDrawing);
@@ -99,14 +113,6 @@
     //   isErasing = false;
     // }
 
-    // 事件在 Canvas 中的偏移位置
-    function getOffset(event) {
-      const rect = canvas.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const offsetY = event.clientY - rect.top;
-      return { offsetX, offsetY };
-    }
-
     // 保存 Canvas 内容
     function saveAsImage() {
       const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
@@ -115,11 +121,6 @@
       link.href = image;
       link.click();
     }
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
 
     // 切换模式
     function toggleMode() {
