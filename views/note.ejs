@@ -107,21 +107,18 @@
         const data = await response.arrayBuffer();
         if (response.ok) {
           if (data.byteLength != 0) {
-            const canvas = document.getElementById('myCanvas');
-            const ctx = canvas.getContext('2d');
+            const blob = new Blob([data], { type: 'image/png' });
+            const url = URL.createObjectURL(blob);
 
-            // 创建一个 Uint8Array，用于包装 ArrayBuffer 中的数据
-            const uint8Array = new Uint8Array(data);
-
-            // 创建一个 ImageData 对象，用于将图像数据绘制到 Canvas 上
-            const imageData = ctx.createImageData(window.innerWidth, window.innerHeight * 0.9);
-
-            // 将 ArrayBuffer 中的数据填充到 ImageData 对象中
-            imageData.data.set(uint8Array);
-
-            // 将 ImageData 对象绘制到 Canvas 上
-            ctx.putImageData(imageData, 0, 0);
-
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.getElementById('myCanvas');
+              const ctx = canvas.getContext('2d');
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight * 0.9;
+              ctx.drawImage(img, 0, 0);
+            };
+            img.src = url;
           }
         }
       }
@@ -129,10 +126,8 @@
       // 保存 Canvas 内容
       function saveAsImage() {
         const canvas = document.getElementById('myCanvas');
-        const imageDataURL = canvas.toDataURL('image/png');
         canvas.toBlob(async function (blob) {
-          console.log(imageDataURL);
-          const file = new File([blob], 'canvas_image.jpeg', { type: 'image/jpeg' });
+          const file = new File([blob], 'canvas_image.png', { type: 'image/png' });
           let formData = new FormData();
           formData.append("uploaded_file", file);
           console.log(file);
@@ -145,7 +140,7 @@
             body: formData
           }
           const response = await fetch(`${url}/askacademy/image/${id}`, config);
-        }, 'image/jpeg');
+        });
 
         const link = document.createElement('a');
 
@@ -294,17 +289,17 @@
           source_list
         }
         saveAsImage()
-        // const config = {
-        //   method: "PUT",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify(info)
-        // }
-        // const response = await fetch(`${url}/askacademy/${id}`, config);
-        // if (response.ok) {
-        //   window.location.reload()
-        // }
+        const config = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info)
+        }
+        const response = await fetch(`${url}/askacademy/${id}`, config);
+        if (response.ok) {
+          window.location.reload()
+        }
       }
     </script>
 </head>
@@ -674,22 +669,36 @@
   </div>
 
   <canvas id="myCanvas"></canvas>
-  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-    <select id="size" class="form-select form-select btn btn-outline-primary px-4" aria-label="Small select example"
-      onchange="sizeChange()">
-      <option value="5" selected>筆尖大小：5</option>
-      <option value="10">筆尖大小：10</option>
-      <option value="15">筆尖大小：15</option>
-      <option value="20">筆尖大小：20</option>
-    </select>
-    <input type="radio" class="btn-check" name="btnradio" id="drawButton" autocomplete="off" checked>
-    <label class="btn btn-outline-primary text-nowrap" for="drawButton">書寫筆：✏️</label>
-    <input type="radio" class="btn-check" name="btnradio" id="clearButton" autocomplete="off">
-    <label class="btn btn-outline-primary text-nowrap" for="clearButton">橡皮擦：🧽</label>
+  <div class="d-flex mx-5">
+    <div class="input-group mx-1" role="group">
+      <label class="input-group-text">大小</label>
+      <select id="size" class="form-select form-select px-4" onchange="sizeChange()">
+        <option value="5" selected>5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+      </select>
+      <label class="input-group-text">顏色</label>
+      <select id="color" class="form-select form-select px-4" onchange="colorChange()">
+        <option value="black" selected>黑色</option>
+        <option value="blue">藍色</option>
+        <option value="red">紅色</option>
+        <option value="green">綠色</option>
+        <option value="yellow">黃色</option>
+      </select>
+    </div>
+    <div class="btn-group mx-1" role="group">
+      <input type="radio" class="btn-check" name="btnradio" id="drawButton" autocomplete="off" checked>
+      <label class="btn btn-outline-primary text-nowrap" for="drawButton">書寫筆：✏️</label>
+      <input type="radio" class="btn-check" name="btnradio" id="clearButton" autocomplete="off">
+      <label class="btn btn-outline-primary text-nowrap" for="clearButton">橡皮擦：🧽</label>
+    </div>
+    <button class="btn btn-primary text-nowrap" type="button" data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">學生資訊</button>
+    <button id="saveButton" type="button" class="btn btn-outline-success px-4 text-nowrap"
+      onclick="submit()">儲存</button>
   </div>
-  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-    aria-controls="offcanvasScrolling">學生資訊</button>
-  <button id="saveButton" type="button" class="btn btn-outline-success px-4" onclick="submit()">儲存</button>
+
   <script>
     const canvas = document.getElementById('myCanvas');
     const ctx = canvas.getContext('2d');
@@ -698,9 +707,14 @@
     let lastX = 0;
     let lastY = 0;
     let size = document.querySelector('#size').value;
+    let textColor = document.querySelector('#color').value;
 
     function sizeChange() {
       size = document.querySelector('#size').value;
+    }
+
+    function colorChange() {
+      textColor = document.querySelector('#color').value;
     }
 
     canvas.width = window.innerWidth;
@@ -735,7 +749,7 @@
 
       if (isDrawing && isWeb) { // 鼠标左键按下
         const { offsetX, offsetY } = getOffset(event);
-        ctx.strokeStyle = isErasing ? 'white' : 'black';
+        ctx.strokeStyle = isErasing ? 'white' : textColor;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
         ctx.lineWidth = size;
