@@ -21,190 +21,6 @@
         }
       }
 
-      // function addClass() {
-      //   const w = window.innerWidth;
-      //   const e = document.querySelector("#classList");
-      //   let div = document.createElement("div");
-      //   if (w < 500) {
-      //     div.classList.add("px-3", "py-1");
-      //   } else {
-      //     div.classList.add("input-group", "px-3", "py-1");
-      //   }
-
-      //   let span = document.createElement("span");
-      //   span.classList.add("input-group-text");
-      //   span.textContent = "課程名稱";
-      //   div.appendChild(span);
-
-      //   let input = document.createElement("input");
-      //   input.classList.add("form-control");
-      //   div.appendChild(input);
-
-      //   span = document.createElement("span");
-      //   span.classList.add("input-group-text");
-      //   span.textContent = "課程時段";
-      //   div.appendChild(span);
-
-      //   input = document.createElement("input");
-      //   input.classList.add("form-control");
-      //   div.appendChild(input);
-
-      //   let button = document.createElement("button");
-      //   button.classList.add("btn", "btn-outline-danger");
-      //   button.textContent = "刪除";
-      //   button.addEventListener("click", (event) => {
-      //     const element = event.target.parentElement;
-      //     element.remove();
-      //   });
-      //   if (w < 500) {
-      //     button.style.width = "100%";
-      //   }
-      //   div.appendChild(button);
-
-      //   e.appendChild(div);
-      // }
-
-      // function addFamily() {
-      //   const w = window.innerWidth;
-      //   const e = document.querySelector("#familyList");
-      //   let div = document.createElement("div");
-      //   div.classList.add("px-3", "py-1");
-
-      //   let inputGroup = document.createElement("div");
-      //   if (w > 500) {
-      //     inputGroup.classList.add("input-group");
-      //   }
-      //   div.appendChild(inputGroup);
-
-      //   let span = document.createElement("span");
-      //   span.classList.add("input-group-text");
-      //   span.textContent = "關係";
-      //   inputGroup.appendChild(span);
-
-      //   let select = document.createElement("select");
-      //   select.classList.add("form-select");
-      //   // select.setAttribute("id")
-      //   inputGroup.appendChild(select);
-
-      //   let option = document.createElement("option");
-      //   option.value = 0;
-      //   option.textContent = "兄";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 1;
-      //   option.textContent = "弟";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 2;
-      //   option.textContent = "姊";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 3;
-      //   option.textContent = "妹";
-      //   select.appendChild(option);
-
-      //   span = document.createElement("span");
-      //   span.classList.add("input-group-text");
-      //   span.textContent = "姓名";
-      //   inputGroup.appendChild(span);
-
-      //   input = document.createElement("input");
-      //   input.classList.add("form-control");
-      //   inputGroup.appendChild(input);
-
-      //   // 下部分
-      //   inputGroup = document.createElement("div");
-      //   if (w > 500) {
-      //     inputGroup.classList.add("input-group");
-      //   }
-      //   div.appendChild(inputGroup);
-
-      //   span = document.createElement("span");
-      //   span.classList.add("input-group-text");
-      //   span.textContent = "就讀學校";
-      //   inputGroup.appendChild(span);
-
-      //   input = document.createElement("input");
-      //   input.classList.add("form-control");
-      //   inputGroup.appendChild(input);
-
-      //   span = document.createElement("span");
-      //   span.classList.add("input-group-text");
-      //   span.textContent = "年級";
-      //   inputGroup.appendChild(span);
-
-      //   select = document.createElement("select");
-      //   select.classList.add("form-select");
-      //   // select.setAttribute("id")
-      //   inputGroup.appendChild(select);
-
-      //   option = document.createElement("option");
-      //   option.value = 0;
-      //   option.textContent = "幼大班";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 1;
-      //   option.textContent = "國小一年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 2;
-      //   option.textContent = "國小二年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 3;
-      //   option.textContent = "國小三年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 4;
-      //   option.textContent = "國小四年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 5;
-      //   option.textContent = "國小五年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 6;
-      //   option.textContent = "國小六年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 7;
-      //   option.textContent = "國中一年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 8;
-      //   option.textContent = "國中二年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 9;
-      //   option.textContent = "國中三年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 10;
-      //   option.textContent = "高中一年級";
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 11;
-      //   option.textContent = "高中二年級";
-      //   select.appendChild(option);
-      //   select.appendChild(option);
-      //   option = document.createElement("option");
-      //   option.value = 12;
-      //   option.textContent = "高中三年級";
-      //   select.appendChild(option);
-
-      //   let button = document.createElement("button");
-      //   button.classList.add("btn", "btn-outline-danger");
-      //   button.textContent = "刪除";
-      //   button.addEventListener("click", (event) => {
-      //     const element = event.target.parentElement;
-      //     element.remove();
-      //   });
-      //   button.style.width = "100%";
-      //   div.appendChild(button);
-
-      //   e.appendChild(div);
-      // }
-
       async function submit() {
         // 基本資料
         const student_name = document.querySelector("#student_name").value || null;
@@ -237,18 +53,19 @@
         const course_list_selected = document.querySelectorAll(".course_list");
         const course_list = [];
         course_list_selected.forEach((item) => {
-          if (item.checked || (item.type == "text" && item.value != "")) {
+          if (item.checked) {
             course_list.push({
               "course_name": item.value || null
             });
           }
         })
+        const course_extend = document.querySelector("#course_extend").value || null;
 
         // 問班來源
-        const source_list_selected = document.querySelectorAll(".course_list");
+        const source_list_selected = document.querySelectorAll(".source_list");
         const source_list = [];
         source_list_selected.forEach((item) => {
-          if (item.checked || (item.type == "text" && item.value != "")) {
+          if (item.checked) {
             source_list.push({
               "source_name": item.value || null
             });
@@ -312,7 +129,7 @@
           holiday_time,
           Weekday_time,
           // Remark,
-          // course_extend,
+          course_extend,
           exam_ranking,
           exam_ranking1,
           exam_ranking2,
@@ -350,7 +167,7 @@
         const url = "http://172.16.150.25:8081/api"
         const config = {
           method: "POST",
-          headers :{
+          headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(info)
@@ -468,31 +285,14 @@
           </div>
         </div>
         <span class="input-group-text">其他</span>
-        <input type="text" aria-label="class_other" class="form-control course_list" />
+        <input id="course_extend" type="text" aria-label="class_other" class="form-control" />
       </div>
-      <!-- <div class="input-group p-1">
-        <span class="input-group-text">目前有無其他課程</span>
-        <div class="form-control">
-          <input class="form-check-input" type="checkbox" value="" id="yes" />
-          <label class="form-check-label" for="yes"> 有 </label>
-          <input class="form-check-input" type="checkbox" value="" id="no" />
-          <label class="form-check-label" for="no"> 無 </label>
-        </div>
-        <div class="form-control">
-          <button style="width: 100%" class="btn btn-outline-success" type="button" onclick="addClass()">
-            新增敘述
-          </button>
-        </div>
-      </div> -->
-      <!-- <div id="classList"></div> -->
       <div class="input-group p-1">
         <span class="input-group-text">其他兄弟姊妹</span>
         <div class="form-control">
           <div class="input-group p-1">
             <span class="input-group-text">兄姐姓名</span>
             <input type="text" aria-label="brother1" id="brother1" class="form-control" />
-            <!-- <span class="input-group-text">就讀學校</span>
-            <input type="text" aria-label="school" id="school" class="form-control" /> -->
             <span class="input-group-text">年級</span>
             <select class="form-select" id="brother1_grade">
               <option value=""></option>
@@ -514,8 +314,6 @@
           <div class="input-group p-1">
             <span class="input-group-text">弟妹姓名</span>
             <input type="text" aria-label="brother2" id="brother2" class="form-control" />
-            <!-- <span class="input-group-text">就讀學校</span>
-            <input type="text" aria-label="school" id="school" class="form-control" /> -->
             <span class="input-group-text">年級</span>
             <select class="form-select" id="brother2_grade">
               <option value=""></option>
@@ -601,9 +399,13 @@
               路過
             </label>
           </div>
+          <div class="nowrap">
+            <input class="form-check-input source_list" type="checkbox" value="其他" id="source12" />
+            <label class="form-check-label" for="source12">
+              其他
+            </label>
+          </div>
         </div>
-        <span class="input-group-text">其他</span>
-        <input type="text" aria-label="source12" class="form-control source_list" />
       </div>
       <h3 class="p-2">學生狀況</h3>
       <div class="input-group p-1">
@@ -735,14 +537,6 @@
         <span class="input-group-text">接待老師</span>
         <input type="text" aria-label="reception" id="reception" class="form-control" />
       </div>
-      <!-- <div class="input-group p-1">
-        <span class="input-group-text">介紹人</span>
-        <input type="text" aria-label="LINE ID" class="form-control" />
-      </div>
-      <div class="input-group p-1">
-        <span class="input-group-text">備註</span>
-        <input type="text" aria-label="LINE ID" class="form-control" />
-      </div> -->
       <p class="px-3 link-danger">已同意本表單收集之個人資料使用權，僅於「多易文理補習班」使用，非經當事人同意，不轉作其他用途。</p>
       <div class="d-grid gap-2">
         <button type="button" class="btn btn-success" onclick="submit()">儲存</button>

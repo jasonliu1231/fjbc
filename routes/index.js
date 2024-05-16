@@ -13,7 +13,7 @@ router.get("/admin", function (req, res, next) {
 });
 
 // 備註畫面
-router.get("/note", function (req, res, next) {
+router.get("/admin/note", function (req, res, next) {
     res.render("note");
 });
 
