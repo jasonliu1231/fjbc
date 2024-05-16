@@ -28,11 +28,11 @@
               `
             <tr onclick="toNote(${item.id})">
               <td>${item.id || ""}</td>
-              <td>${item.created_at || ""}</td>
+              <td>${new Date(item.created_at).toLocaleString() || ""}</td>
               <td>${item.student_name || ""}</td>
               <td>${item.school || ""}</td>
-              <td>家裡：${item.tel || ""} 爸爸：${item.father_mobile || ""} 媽媽：${item.mother_mobile || ""}</td>
-              <td>平日：${item.Weekday_time || ""} 假日：${item.holiday_time || ""}</td>
+              <td><div>家裡：${item.tel || ""}</div>爸爸：${item.father_mobile || ""}<div></div><div>媽媽：${item.mother_mobile || ""}</div></td>
+              <td><div>平日：${item.Weekday_time || ""}</div><div>假日：${item.holiday_time || ""}</div></td>
               <td>${course_list.join(", ")}</td>
             </tr>
             `
@@ -53,13 +53,13 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>ＩＤ</th>
-          <th>填表日期</th>
-          <th>學生姓名</th>
-          <th>學校</th>
-          <th>聯絡電話</th>
-          <th>可聯絡時間</th>
-          <th>希望科目</th>
+          <th class="nowrap">ＩＤ</th>
+          <th class="nowrap">填表日期</th>
+          <th class="nowrap">學生姓名</th>
+          <th class="nowrap">學校</th>
+          <th class="nowrap">聯絡電話</th>
+          <th class="nowrap">可聯絡時間</th>
+          <th class="nowrap">希望科目</th>
         </tr>
       </thead>
       <tbody id="list"></tbody>
