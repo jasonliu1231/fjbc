@@ -3,68 +3,33 @@
 
 <head>
   <%-include('head') %>
-    <script>
-      window.addEventListener("load", async () => {
-        const url = "http://172.16.150.25:8081/api"
-        const config = {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }
-        const response = await fetch(`${url}/askacademy`, config);
-        const data = await response.json();
-
-        if (response.ok) {
-          const element = document.querySelector("#list");
-          let htmlStr = "";
-          data.AskAcademy_list.forEach(item => {
-            // 希望科目處理
-            const course_list = []
-            item.course_list.forEach(i => {
-              course_list.push(i.course_name);
-            })
-            htmlStr +=
-              `
-            <tr onclick="toNote(${item.id})">
-              <td>${item.id || ""}</td>
-              <td>${new Date(item.created_at).toLocaleString() || ""}</td>
-              <td>${item.student_name || ""}</td>
-              <td>${item.school || ""}</td>
-              <td><div>家裡：${item.tel || ""}</div>爸爸：${item.father_mobile || ""}<div></div><div>媽媽：${item.mother_mobile || ""}</div></td>
-              <td><div>平日：${item.Weekday_time || ""}</div><div>假日：${item.holiday_time || ""}</div></td>
-              <td>${course_list.join(", ")}</td>
-            </tr>
-            `
-          });
-          element.innerHTML = htmlStr;
-        }
-      })
-
-      function toNote(id) {
-        window.location.href = "admin/note?id=" + id
-      }
-    </script>
 </head>
 
 <body>
-  <div class="container">
-    <h3 class="p-2">問卷紀錄表</h3>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th class="nowrap">ＩＤ</th>
-          <th class="nowrap">填表日期</th>
-          <th class="nowrap">學生姓名</th>
-          <th class="nowrap">學校</th>
-          <th class="nowrap">聯絡電話</th>
-          <th class="nowrap">可聯絡時間</th>
-          <th class="nowrap">希望科目</th>
-        </tr>
-      </thead>
-      <tbody id="list"></tbody>
-    </table>
-  </div>
+  <%-include('header') %>
+    <div class="container">
+      <h3 class="p-2">問卷紀錄表</h3>
+      <div class="d-flex" role="search">
+        <input id="dateStatr" class="form-control me-1" type="date" placeholder="搜尋：學生姓名，家長姓名，學校" aria-label="start">
+        <input id="dateEnd" class="form-control me-1" type="date" placeholder="搜尋：學生姓名，家長姓名，學校" aria-label="end">
+        <input id="keyword" class="form-control me-1" type="search" placeholder="搜尋：學生姓名，家長姓名，學校" aria-label="Search">
+        <button class="btn btn-outline-success text-nowrap" type="submit" onclick="searchAskacademy()">搜尋</button>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="nowrap">ＩＤ</th>
+            <th class="nowrap">填表日期</th>
+            <th class="nowrap">學生姓名</th>
+            <th class="nowrap">學校</th>
+            <th class="nowrap">聯絡電話</th>
+            <th class="nowrap">可聯絡時間</th>
+            <th class="nowrap">希望科目</th>
+          </tr>
+        </thead>
+        <tbody id="list"></tbody>
+      </table>
+    </div>
 
 </body>
 

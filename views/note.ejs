@@ -8,7 +8,6 @@
       html {
         margin: 0;
         padding: 0;
-        overflow: hidden;
         text-align: center;
       }
 
@@ -23,308 +22,66 @@
       }
     </style>
     <script>
-      const url = "http://172.16.150.25:8081/api";
-      let id = "";
-      window.addEventListener("load", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        id = urlParams.get('id');
-        getAskacademyInfo(id);
-        getAskacademyImage(id);
-      })
 
-      async function getAskacademyInfo(id) {
-        const config = {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-        const response = await fetch(`${url}/askacademy/${id}`, config);
-        const data = await response.json();
-        if (response.ok) {
-          const itemNames = Object.keys(data);
-          itemNames.forEach(itemName => {
-            if (itemName != "created_at" || itemName != "course_list" || itemName != "source_list" || itemName != "english_listening" || itemName != "inquiry_method") {
-              const element = document.querySelector(`#${itemName}`);
-              if (element != null) {
-                element.value = data[itemName];
-              }
-            }
-            // 填表時間
-            document.querySelector("#studentInfo").innerHTML = new Date(data.created_at).toLocaleString();
-            // 問班來源
-            if (itemName == "source_list") {
-              if (data[itemName].length > 0) {
-                const source_list = document.querySelectorAll(".source_list");
-                data[itemName].forEach(i => {
-                  source_list.forEach(e => {
-                    if (e.value == i.source_name) {
-                      e.checked = true;
-                    }
-                  })
-                })
-              }
-
-            }
-            // 期望科目
-            if (itemName == "course_list") {
-              if (data[itemName].length > 0) {
-                const course_list = document.querySelectorAll(".course_list");
-                data[itemName].forEach(i => {
-                  course_list.forEach(e => {
-                    if (e.value == i.course_name) {
-                      e.checked = true;
-                    }
-                  })
-                })
-              }
-            }
-            // 英聽成績
-            if (itemName == "english_listening") {
-              if (data[itemName] != null) {
-                document.querySelector(`input[name="english_listening"][value="${data[itemName]}"]`).checked = true;
-              }
-            }
-            // 詢班方式
-            if (itemName == "inquiry_method") {
-              if (data[itemName] != null) {
-                document.querySelector(`input[name="inquiry_method"][value="${data[itemName]}"]`).checked = true;
-              }
-            }
-          })
-        }
-      }
-
-      async function getAskacademyImage(id) {
-        const config = {
-          method: "GET",
-          responseType: "arraybuffer",
-          headers: {
-            // "Content-Type": "application/json",
-          },
-        }
-        const response = await fetch(`${url}/askacademy/image/${id}`, config);
-        const data = await response.arrayBuffer();
-        if (response.ok) {
-          if (data.byteLength != 0) {
-            const blob = new Blob([data], { type: 'image/png' });
-            const url = URL.createObjectURL(blob);
-
-            const img = new Image();
-            img.onload = function () {
-              const canvas = document.getElementById('myCanvas');
-              const ctx = canvas.getContext('2d');
-              canvas.width = window.innerWidth;
-              canvas.height = window.innerHeight * 0.9;
-              ctx.drawImage(img, 0, 0);
-            };
-            img.src = url;
-          }
-        }
-      }
-
-      // 保存 Canvas 内容
-      function saveAsImage() {
-        const canvas = document.getElementById('myCanvas');
-        canvas.toBlob(async function (blob) {
-          const file = new File([blob], 'canvas_image.png', { type: 'image/png' });
-          let formData = new FormData();
-          formData.append("uploaded_file", file);
-          console.log(file);
-          const config = {
-            method: "POST",
-            headers: {
-              // 設定後要自行設定邊界。所以註解掉
-              // "Content-Type": "multipart/form-data",
-            },
-            body: formData
-          }
-          const response = await fetch(`${url}/askacademy/image/${id}`, config);
-        });
-
-        const link = document.createElement('a');
-
-      }
-
-      async function submit() {
-        // 基本資料
-        const student_name = document.querySelector("#student_name").value || null;
-        if (!student_name) {
-          alert("請填寫學生姓名");
-          return;
-        }
-        const student_name_en = document.querySelector("#student_name_en").value || null;
-        const student_mobile = document.querySelector("#student_mobile").value || null;
-        const school = document.querySelector("#school").value || null;
-        const grade = document.querySelector("#grade").value || null;
-        const tel = document.querySelector("#tel").value || null;
-        const address = document.querySelector("#address").value || null;
-        const father_name = document.querySelector("#father_name").value || null;
-        const father_mobile = document.querySelector("#father_mobile").value || null;
-        const father_profession = document.querySelector("#father_profession").value || null;
-        const father_office_tel = document.querySelector("#father_office_tel").value || null;
-        const mother_name = document.querySelector("#mother_name").value || null;
-        const mother_mobile = document.querySelector("#mother_mobile").value || null;
-        const mother_profession = document.querySelector("#mother_profession").value || null;
-        const mother_office_tel = document.querySelector("#mother_office_tel").value || null;
-        const holiday_time = document.querySelector("#holiday_time").value || null;
-        const Weekday_time = document.querySelector("#Weekday_time").value || null;
-        const brother1 = document.querySelector("#brother1").value || null;
-        const brother1_grade = document.querySelector("#brother1_grade").value || null;
-        const brother2 = document.querySelector("#brother2").value || null;
-        const brother2_grade = document.querySelector("#brother2_grade").value || null;
-
-        // 興趣班級
-        const course_list_selected = document.querySelectorAll(".course_list");
-        const course_list = [];
-        course_list_selected.forEach((item) => {
-          if (item.checked) {
-            course_list.push({
-              "course_name": item.value || null
-            });
-          }
-        })
-        const course_extend = document.querySelector("#course_extend").value || null;
-
-        // 問班來源
-        const source_list_selected = document.querySelectorAll(".source_list");
-        const source_list = [];
-        source_list_selected.forEach((item) => {
-          if (item.checked) {
-            source_list.push({
-              "source_name": item.value || null
-            });
-          }
-        })
-
-        // 學生狀況
-        const exam_ranking = document.querySelector("#exam_ranking").value || null;
-        const exam_ranking1 = document.querySelector("#exam_ranking1").value || null;
-        const exam_ranking2 = document.querySelector("#exam_ranking2").value || null;
-        const chinese_score = document.querySelector("#chinese_score").value || null;
-        const math_score = document.querySelector("#math_score").value || null;
-        const english_score = document.querySelector("#english_score").value || null;
-        const english_listening = document.querySelector("input[name='english_listening']:checked") ? document.querySelector("input[name='english_listening']:checked").value : null;
-        const enature_score = document.querySelector("#enature_score").value || null;
-        const biology_score = document.querySelector("#biology_score").value || null;
-        const physics_score = document.querySelector("#physics_score").value || null;
-        const chemical_score = document.querySelector("#chemical_score").value || null;
-        const earth_science_score = document.querySelector("#earth_science_score").value || null;
-        const physics_chemical_score = document.querySelector("#physics_chemical_score").value || null;
-        const social_score = document.querySelector("#social_score").value || null;
-        const geography_score = document.querySelector("#geography_score").value || null;
-        const history_score = document.querySelector("#history_score").value || null;
-        const civics_score = document.querySelector("#civics_score").value || null;
-
-        // 課程表
-        const activity_status1 = document.querySelector("#activity_status1").value || null;
-        const activity_status2 = document.querySelector("#activity_status2").value || null;
-        const activity_status3 = document.querySelector("#activity_status3").value || null;
-        const activity_status4 = document.querySelector("#activity_status4").value || null;
-        const activity_status5 = document.querySelector("#activity_status5").value || null;
-        const activity_status6_1 = document.querySelector("#activity_status6_1").value || null;
-        const activity_status6_2 = document.querySelector("#activity_status6_2").value || null;
-        const activity_status6_3 = document.querySelector("#activity_status6_3").value || null;
-        const activity_status7_1 = document.querySelector("#activity_status7_1").value || null;
-        const activity_status7_2 = document.querySelector("#activity_status7_2").value || null;
-        const activity_status7_3 = document.querySelector("#activity_status7_3").value || null;
-        const inquiry_method = document.querySelector("input[name='inquiry_method']:checked") ? document.querySelector("input[name='inquiry_method']:checked").value : null;
-        const reception = document.querySelector("#reception").value || null;
-
-        const info = {
-          student_name,
-          student_name_en,
-          student_mobile,
-          tel,
-          school,
-          grade,
-          address,
-          brother1,
-          brother1_grade,
-          brother2,
-          brother2_grade,
-          father_name,
-          father_mobile,
-          father_office_tel,
-          father_profession,
-          mother_name,
-          mother_mobile,
-          mother_office_tel,
-          mother_profession,
-          holiday_time,
-          Weekday_time,
-          // Remark,
-          course_extend,
-          exam_ranking,
-          exam_ranking1,
-          exam_ranking2,
-          chinese_score,
-          math_score,
-          english_score,
-          english_listening,
-          enature_score,
-          biology_score,
-          physics_score,
-          chemical_score,
-          earth_science_score,
-          physics_chemical_score,
-          social_score,
-          geography_score,
-          history_score,
-          civics_score,
-          activity_status1,
-          activity_status2,
-          activity_status3,
-          activity_status4,
-          activity_status5,
-          activity_status6_1,
-          activity_status6_2,
-          activity_status6_3,
-          activity_status7_1,
-          activity_status7_2,
-          activity_status7_3,
-          inquiry_method,
-          reception,
-          course_list,
-          source_list
-        }
-        saveAsImage()
-        const config = {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(info)
-        }
-        const response = await fetch(`${url}/askacademy/${id}`, config);
-        if (response.ok) {
-          window.location.reload()
-        }
-      }
     </script>
 </head>
 
 <body>
-  <div class="offcanvas offcanvas-top" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-    id="offcanvasScrolling" aria-labelledby="studentInfo">
+  <%-include('header') %>
+  <div class="offcanvas offcanvas-bottom" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+    id="offcanvasScrolling" aria-labelledby="studentInfo" style="height: 50%;">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="studentInfo">學生資料</h5>
+      <div class="d-flex mx-5">
+        <div class="input-group mx-4" role="group">
+          <label class="input-group-text">大小</label>
+          <select id="size" class="form-select form-select px-4" onchange="sizeChange()">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+          <label class="input-group-text">顏色</label>
+          <select id="color" class="form-select form-select px-4" onchange="colorChange()">
+            <option value="black" selected>黑色</option>
+            <option value="blue">藍色</option>
+            <option value="red">紅色</option>
+            <option value="green">綠色</option>
+            <option value="yellow">黃色</option>
+          </select>
+        </div>
+        <div class="btn-group mx-1" role="group">
+          <input type="radio" class="btn-check" name="btnradio" id="drawButton" autocomplete="off" checked>
+          <label class="btn btn-outline-primary text-nowrap" for="drawButton">書寫筆：✏️</label>
+          <input type="radio" class="btn-check" name="btnradio" id="clearButton" autocomplete="off">
+          <label class="btn btn-outline-primary text-nowrap" for="clearButton">橡皮擦：🧽</label>
+        </div>
+      </div>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <h5 class="p-2">基本資料</h5>
+      <canvas id="myCanvas"></canvas>
+    </div>
+  </div>
+  <div class="container">
+    <div class="border rounded border-3 p-md-5 p-2 m-md-5 m-2">
+      <h1 class="text-center">多易文理補習班</h1>
+      <h3 class="text-center">學生資料表</h3>
+      <h3 class="p-2">基本資料</h3>
       <div class="input-group p-1">
         <span class="input-group-text">學生姓名</span>
         <input type="text" aria-label="student_name" id="student_name" class="form-control" />
         <span class="input-group-text">英文名子</span>
         <input type="text" aria-label="student_name_en" id="student_name_en" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">學生手機</span>
         <input type="text" aria-label="student_mobile" id="student_mobile" class="form-control" />
       </div>
       <div class="input-group p-1">
         <span class="input-group-text">就讀學校</span>
         <input type="text" aria-label="school" id="school" class="form-control" />
-        <span class="input-group-text">年級</span>
+        <label class="input-group-text" for="grade">年級</label>
         <select class="form-select" id="grade">
           <option value=""></option>
           <option value="幼大班">幼大班</option>
@@ -353,7 +110,9 @@
         <input type="text" aria-label="father_name" id="father_name" class="form-control" />
         <span class="input-group-text">連絡電話</span>
         <input type="text" aria-label="father_mobile" id="father_mobile" class="form-control" />
-        <span class="input-group-text">職業</span>
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">父親職業</span>
         <input type="text" aria-label="father_profession" id="father_profession" class="form-control" />
         <span class="input-group-text">公司電話</span>
         <input type="text" aria-label="father_office_tel" id="father_office_tel" class="form-control" />
@@ -363,7 +122,9 @@
         <input type="text" aria-label="mother_name" id="mother_name" class="form-control" />
         <span class="input-group-text">連絡電話</span>
         <input type="text" aria-label="mother_mobile" id="mother_mobile" class="form-control" />
-        <span class="input-group-text">職業</span>
+      </div>
+      <div class="input-group p-1">
+        <span class="input-group-text">母親職業</span>
         <input type="text" aria-label="mother_profession" id="mother_profession" class="form-control" />
         <span class="input-group-text">公司電話</span>
         <input type="text" aria-label="mother_office_tel" id="mother_office_tel" class="form-control" />
@@ -409,6 +170,14 @@
             <input class="form-check-input course_list" type="checkbox" value="地科" id="class_earthScience" />
             <label class="form-check-label" for="class_earthScience"> 地科 </label>
           </div>
+          <div class="nowrap">
+            <input class="form-check-input course_list" type="checkbox" value="自然" id="class_science" />
+            <label class="form-check-label" for="class_science"> 自然 </label>
+          </div>
+          <div class="nowrap">
+            <input class="form-check-input course_list" type="checkbox" value="理化" id="class_physics" />
+            <label class="form-check-label" for="class_physics"> 理化 </label>
+          </div>
         </div>
         <span class="input-group-text">其他</span>
         <input id="course_extend" type="text" aria-label="class_other" class="form-control" />
@@ -419,7 +188,7 @@
           <div class="input-group p-1">
             <span class="input-group-text">兄姐姓名</span>
             <input type="text" aria-label="brother1" id="brother1" class="form-control" />
-            <span class="input-group-text">年級</span>
+            <label class="input-group-text" for="brother1_grade">年級</label>
             <select class="form-select" id="brother1_grade">
               <option value=""></option>
               <option value="幼大班">幼大班</option>
@@ -440,7 +209,7 @@
           <div class="input-group p-1">
             <span class="input-group-text">弟妹姓名</span>
             <input type="text" aria-label="brother2" id="brother2" class="form-control" />
-            <span class="input-group-text">年級</span>
+            <label class="input-group-text" for="brother2_grade">年級</label>
             <select class="form-select" id="brother2_grade">
               <option value=""></option>
               <option value="幼大班">幼大班</option>
@@ -533,10 +302,12 @@
           </div>
         </div>
       </div>
-      <h5 class="p-2">學生狀況</h5>
+      <h3 class="p-2">學生狀況</h3>
       <div class="input-group p-1">
         <span class="input-group-text">段考校排</span>
         <input type="text" aria-label="exam_ranking" id="exam_ranking" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">模擬考校排</span>
         <input type="text" aria-label="exam_ranking1" id="exam_ranking1" class="form-control" />
         <span class="input-group-text">模擬考區排</span>
@@ -547,6 +318,8 @@
         <input type="text" aria-label="chinese_score" id="chinese_score" class="form-control" />
         <span class="input-group-text">數學成績</span>
         <input type="text" aria-label="math_score" id="math_score" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">英文成績</span>
         <input type="text" aria-label="english_score" id="english_score" class="form-control" />
         <span class="input-group-text">英聽成績</span>
@@ -578,10 +351,14 @@
         <input type="text" id="enature_score" aria-label="enature_score" class="form-control" />
         <span class="input-group-text">生物成績</span>
         <input type="text" id="biology_score" aria-label="biology_score" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">物理成績</span>
         <input type="text" id="physics_score" aria-label="physics_score" class="form-control" />
         <span class="input-group-text">化學成績</span>
         <input type="text" id="chemical_score" aria-label="chemical_score" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">地科成績</span>
         <input type="text" id="earth_science_score" aria-label="earth_science_score" class="form-control" />
         <span class="input-group-text">理化成績</span>
@@ -592,21 +369,27 @@
         <input type="text" id="social_score" aria-label="social_score" class="form-control" />
         <span class="input-group-text">地理成績</span>
         <input type="text" id="geography_score" aria-label="geography_score" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">歷史成績</span>
         <input type="text" id="history_score" aria-label="history_score" class="form-control" />
         <span class="input-group-text">公民成績</span>
         <input type="text" id="civics_score" aria-label="civics_score" class="form-control" />
       </div>
-      <h5 class="p-2">課程表</h5>
+      <h3 class="p-2">課程表</h3>
       <div class="input-group p-1">
         <span class="input-group-text">星期一</span>
         <input type="text" id="activity_status1" aria-label="activity_status1" class="form-control" />
         <span class="input-group-text">星期二</span>
         <input type="text" id="activity_status2" aria-label="activity_status2" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">星期三</span>
         <input type="text" id="activity_status3" aria-label="activity_status3" class="form-control" />
         <span class="input-group-text">星期四</span>
         <input type="text" id="activity_status4" aria-label="activity_status4" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">星期五</span>
         <input type="text" id="activity_status5" aria-label="activity_status5" class="form-control" />
       </div>
@@ -615,12 +398,14 @@
         <input type="text" id="activity_status6_1" aria-label="activity_status6_1" class="form-control" />
         <span class="input-group-text">星期六-中</span>
         <input type="text" id="activity_status6_2" aria-label="activity_status6_2" class="form-control" />
-        <span class="input-group-text">星期六-晚</span>
-        <input type="text" id="activity_status6_3" aria-label="activity_status6_3" class="form-control" />
       </div>
       <div class="input-group p-1">
+        <span class="input-group-text">星期六-晚</span>
+        <input type="text" id="activity_status6_3" aria-label="activity_status6_3" class="form-control" />
         <span class="input-group-text">星期日-早</span>
         <input type="text" id="activity_status7_1" aria-label="activity_status7_1" class="form-control" />
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">星期日-中</span>
         <input type="text" id="activity_status7_2" aria-label="activity_status7_2" class="form-control" />
         <span class="input-group-text">星期日-晚</span>
@@ -660,141 +445,20 @@
             </label>
           </div>
         </div>
+      </div>
+      <div class="input-group p-1">
         <span class="input-group-text">接待老師</span>
         <input type="text" aria-label="reception" id="reception" class="form-control" />
       </div>
-      <!-- <p class="px-3 link-danger">已同意本表單收集之個人資料使用權，僅於「多易文理補習班」使用，非經當事人同意，不轉作其他用途。</p> -->
+      <p class="px-3 link-danger">已同意本表單收集之個人資料使用權，僅於「多易文理補習班」使用，非經當事人同意，不轉作其他用途。</p>
+      <div class="d-grid gap-2 d-flex">
+        <button class="btn btn-primary text-nowrap" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">手寫板</button>
+        <button id="saveButton" type="button" class="btn btn-outline-success px-4 text-nowrap"
+          onclick="submit()">儲存</button>
+      </div>
     </div>
-
   </div>
-
-  <canvas id="myCanvas"></canvas>
-  <div class="d-flex mx-5">
-    <div class="input-group mx-1" role="group">
-      <label class="input-group-text">大小</label>
-      <select id="size" class="form-select form-select px-4" onchange="sizeChange()">
-        <option value="5" selected>5</option>
-        <option value="10">10</option>
-        <option value="15">15</option>
-        <option value="20">20</option>
-      </select>
-      <label class="input-group-text">顏色</label>
-      <select id="color" class="form-select form-select px-4" onchange="colorChange()">
-        <option value="black" selected>黑色</option>
-        <option value="blue">藍色</option>
-        <option value="red">紅色</option>
-        <option value="green">綠色</option>
-        <option value="yellow">黃色</option>
-      </select>
-    </div>
-    <div class="btn-group mx-1" role="group">
-      <input type="radio" class="btn-check" name="btnradio" id="drawButton" autocomplete="off" checked>
-      <label class="btn btn-outline-primary text-nowrap" for="drawButton">書寫筆：✏️</label>
-      <input type="radio" class="btn-check" name="btnradio" id="clearButton" autocomplete="off">
-      <label class="btn btn-outline-primary text-nowrap" for="clearButton">橡皮擦：🧽</label>
-    </div>
-    <button class="btn btn-primary text-nowrap" type="button" data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">學生資訊</button>
-    <button id="saveButton" type="button" class="btn btn-outline-success px-4 text-nowrap"
-      onclick="submit()">儲存</button>
-  </div>
-
-  <script>
-    const canvas = document.getElementById('myCanvas');
-    const ctx = canvas.getContext('2d');
-    let isDrawing = false;
-    let isErasing = false;
-    let lastX = 0;
-    let lastY = 0;
-    let size = document.querySelector('#size').value;
-    let textColor = document.querySelector('#color').value;
-
-    function sizeChange() {
-      size = document.querySelector('#size').value;
-    }
-
-    function colorChange() {
-      textColor = document.querySelector('#color').value;
-    }
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 0.9;
-
-    // 監聽點擊瞬間
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('touchstart', startDrawing);
-
-    function startDrawing(event) {
-      event.preventDefault();
-      if (event.type === 'mousedown' || (event.type === 'touchstart' && event.touches.length === 1)) {
-        const { offsetX, offsetY } = getOffset(event);
-        if (event.type === 'touchstart') {
-          event = event.touches[0];
-        }
-        isDrawing = true;
-        [lastX, lastY] = [offsetX, offsetY];
-      }
-    }
-
-    // 繪圖
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('touchmove', draw);
-
-    function draw(event) {
-      event.preventDefault();
-      let isWeb = event.type === 'mousemove' ? event.buttons === 1 : true
-      if (event.type === 'touchmove') {
-        event = event.touches[0]
-      }
-
-      if (isDrawing && isWeb) { // 鼠标左键按下
-        const { offsetX, offsetY } = getOffset(event);
-        ctx.strokeStyle = isErasing ? 'white' : textColor;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.lineWidth = size;
-        ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(offsetX, offsetY);
-        ctx.stroke();
-        [lastX, lastY] = [offsetX, offsetY];
-      }
-    }
-
-    // 事件在 Canvas 中的偏移位置
-    function getOffset(event) {
-      const rect = canvas.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const offsetY = event.clientY - rect.top;
-      return { offsetX, offsetY };
-    }
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
-    // 點擊結束
-    // canvas.addEventListener('mouseup', endDrawing);
-    // canvas.addEventListener('touchend', endDrawing);
-
-    // function endDrawing(event) {
-    //   isDrawing = false;
-    //   isErasing = false;
-    // }
-
-    // 切换模式
-    function drawButton() {
-      isErasing = false;
-    }
-
-    function clearButton() {
-      isErasing = true;
-    }
-
-    document.getElementById('drawButton').addEventListener('click', drawButton);
-    document.getElementById('clearButton').addEventListener('click', clearButton);
-  </script>
 </body>
 
 </html>

@@ -4,17 +4,12 @@ const db = require("../controller/connection.js");
 
 // 問班表格
 router.get("/", function (req, res, next) {
-    res.render("index");
+    res.render("index", {title: "index"});
 });
 
-// 老師頁面
-router.get("/admin", function (req, res, next) {
-    res.render("admin");
-});
-
-// 備註畫面
-router.get("/admin/note", function (req, res, next) {
-    res.render("note");
+/* GET users listing. */
+router.get("/login", function (req, res, next) {
+    res.render("login", {title: "login"});
 });
 
 // API routes
