@@ -1,21 +1,15 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">FJBC</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">問卷記錄表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">問卷追蹤表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">問卷...</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<style>
+    .headerIcon {
+        width: 60px;
+        height: 60px;
+        margin: 12px;
+        border-radius: 50%;
+        line-height: 50px;
+        font-size: 14px;
+    }
+</style>
+<div class="p-1 fixed-top d-flex flex-column" style="width: 60px;">
+    <a href="/admin/track" class="headerIcon badge text-bg-secondary"><i class="bi bi-search">追蹤</i></a>
+    <a href="/admin/askclass" class="headerIcon badge text-bg-secondary"><i class="bi bi-telephone-inbound">問班</i></a>
+    <!-- <a href="/admin" class="headerIcon badge text-bg-secondary"><i class="bi bi-arrow-left-right">修改</i></a> -->
+</div>

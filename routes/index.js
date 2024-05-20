@@ -7,11 +7,6 @@ router.get("/", function (req, res, next) {
     res.render("index", {title: "index"});
 });
 
-/* GET users listing. */
-router.get("/login", function (req, res, next) {
-    res.render("login", {title: "login"});
-});
-
 // API routes
 router.get("/getInfo", function (req, res, next) {
     db.query("SELECT * FROM askacademy", (err, results) => {

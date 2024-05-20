@@ -1,5 +1,3 @@
-
-
 function setMedia() {
     const w = window.innerWidth;
     if (w < 500) {
@@ -204,11 +202,11 @@ async function submit() {
         body: JSON.stringify(info)
     };
 
-    const {isOk, data} = await submitObjApi('api/askacademy', config);
+    const { isOk, data } = await submitObjApi("api/askacademy", config);
     if (isOk) {
-        console.log(isOk)
+        window.location.reload();
         // TODO: 要轉去哪邊？
     } else {
-        console.error(data)
+        console.error(data);
     }
 }

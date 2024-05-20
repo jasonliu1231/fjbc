@@ -1,4 +1,11 @@
 window.addEventListener("load", async () => {
+    const w = window.innerWidth;
+    if (w < 500) {
+        const e = document.querySelectorAll(".input-group");
+        e.forEach((i) => {
+            i.classList.remove("input-group");
+        });
+    }
     // 當前時間
     const date = new Date();
     const today = `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -99,5 +106,5 @@ async function searchAskacademy() {
 }
 
 function toNote(id) {
-    window.location.href = "admin/note?id=" + id;
+    window.location.href = "note?id=" + id;
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%-include('head') %>
+    <style>
+      .finish {
+        text-decoration: line-through;
+      }
+    </style>
+</head>
+
+<body>
+  <%-include('header') %>
+    <%-include('modal') %>
+      <div class="container px-5">
+        <h3 class="p-2">追蹤紀錄</h3>
+        <div class="input-group" role="search">
+          <span class="input-group-text">起始</span>
+          <input id="dateStatr" class="form-control" type="date" aria-label="start">
+          <span class="input-group-text">結束</span>
+          <input id="dateEnd" class="form-control" type="date" aria-label="end">
+          <span class="input-group-text">搜尋</span>
+          <input id="keyword" class="form-control" type="search" placeholder="姓名、電話" aria-label="Search">
+          <button class="btn btn-outline-success text-nowrap" type="submit" onclick="search()">搜尋</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="nowrap">狀態</th>
+              <th class="nowrap">日期</th>
+              <th class="nowrap">學生姓名</th>
+              <th class="nowrap">追蹤內容</th>
+            </tr>
+          </thead>
+          <tbody id="list">
+            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-warning-emphasis bg-warning-subtle">未完成</td>
+              <td class="text-warning-emphasis bg-warning-subtle">2024/5/17 下午4:09:52</td>
+              <td class="text-warning-emphasis bg-warning-subtle">ＪＡＭＥＳ</td>
+              <td class="text-warning-emphasis bg-warning-subtle">客場對戰勇士</td>
+            </tr>
+            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-warning-emphasis bg-warning-subtle">未完成</td>
+              <td class="text-warning-emphasis bg-warning-subtle">2024/5/17 下午4:09:52</td>
+              <td class="text-warning-emphasis bg-warning-subtle">ＪＡＭＥＳ</td>
+              <td class="text-warning-emphasis bg-warning-subtle">客場對戰勇士</td>
+            </tr>
+            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-danger-emphasis bg-danger-subtle">過期</td>
+              <td class="text-danger-emphasis bg-danger-subtle">2024/5/17 下午5:09:52</td>
+              <td class="text-danger-emphasis bg-danger-subtle">碧昂絲</td>
+              <td class="text-danger-emphasis bg-danger-subtle">新歌譜曲</td>
+            </tr>
+            <tr class="finish" onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-success-emphasis bg-success-subtle">已完成</td>
+              <td class="text-success-emphasis bg-success-subtle">2024/5/17 下午3:09:52</td>
+              <td class="text-success-emphasis bg-success-subtle">煎餅倫</td>
+              <td class="text-success-emphasis bg-success-subtle">煎餅訂單20個</td>
+            </tr>
+            <tr class="finish" onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-success-emphasis bg-success-subtle">已完成</td>
+              <td class="text-success-emphasis bg-success-subtle">2024/5/17 下午3:09:52</td>
+              <td class="text-success-emphasis bg-success-subtle">煎餅倫</td>
+              <td class="text-success-emphasis bg-success-subtle">煎餅訂單20個</td>
+            </tr>
+            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-danger-emphasis bg-danger-subtle">過期</td>
+              <td class="text-danger-emphasis bg-danger-subtle">2024/5/17 下午5:09:52</td>
+              <td class="text-danger-emphasis bg-danger-subtle">碧昂絲</td>
+              <td class="text-danger-emphasis bg-danger-subtle">新歌譜曲</td>
+            </tr>
+            <tr class="finish" onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-success-emphasis bg-success-subtle">已完成</td>
+              <td class="text-success-emphasis bg-success-subtle">2024/5/17 下午3:09:52</td>
+              <td class="text-success-emphasis bg-success-subtle">煎餅倫</td>
+              <td class="text-success-emphasis bg-success-subtle">煎餅訂單20個</td>
+            </tr>
+            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
+              <td class="text-danger-emphasis bg-danger-subtle">過期</td>
+              <td class="text-danger-emphasis bg-danger-subtle">2024/5/17 下午5:09:52</td>
+              <td class="text-danger-emphasis bg-danger-subtle">碧昂絲</td>
+              <td class="text-danger-emphasis bg-danger-subtle">新歌譜曲</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</body>
+
+</html>
