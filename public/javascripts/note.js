@@ -1,4 +1,121 @@
 let id = "";
+let isDrawing = false;
+let isErasing = false;
+let lastX = 0;
+let lastY = 0;
+let page = 0;
+
+function createNewCanvas() {
+    page++;
+    let canvasContainer = document.getElementById("canvasContainer");
+    let newCanvas = document.createElement("canvas");
+    newCanvas.width = 700;
+    newCanvas.height = 850;
+    newCanvas.id = "canvas" + page;
+
+    // 電腦
+    newCanvas.onmousedown = startDrawing;
+    newCanvas.onmousemove = draw;
+    newCanvas.onmouseup = stopDrawing;
+    newCanvas.onmouseleave = stopDrawing;
+
+    // 平板
+    newCanvas.ontouchstart = startDrawingTouch;
+    newCanvas.ontouchmove = drawTouch;
+    newCanvas.ontouchend = stopDrawing;
+
+    canvasContainer.appendChild(newCanvas);
+    createNewPage(page);
+}
+
+function createNewPage(page) {
+    let canvasPage = document.getElementById("canvasPage");
+    let newPage = document.createElement("option");
+    newPage.value = "canvas" + page;
+    newPage.text = page;
+    newPage.checked = true;
+    canvasPage.appendChild(newPage);
+    canvasPage.value = "canvas" + page;
+    selectPage()
+}
+
+function selectPage() {
+    const canvasList = document.querySelectorAll("canvas");
+    const val = document.getElementById("canvasPage").value;
+    canvasList.forEach((canvas) => {
+        if (canvas.id == val) {
+            canvas.style.display = "";
+        } else {
+            canvas.style.display = "none";
+        }
+    });
+}
+
+function startDrawing(event) {
+    isDrawing = true;
+    [lastX, lastY] = [event.offsetX, event.offsetY];
+}
+
+function draw(event) {
+    if (!isDrawing) return;
+    const ctx = event.target.getContext("2d");
+    ctx.strokeStyle = isErasing
+        ? "white"
+        : document.querySelector("#color").value;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.lineWidth = document.querySelector("#size").value;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [event.offsetX, event.offsetY];
+}
+
+function startDrawingTouch(event) {
+    isDrawing = true;
+    const touch = event.touches[0];
+    const rect = event.target.getBoundingClientRect();
+    [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+}
+
+function drawTouch(event) {
+    event.preventDefault();
+    if (!isDrawing) return;
+    const ctx = event.target.getContext("2d");
+    ctx.strokeStyle = isErasing
+        ? "white"
+        : document.querySelector("#color").value;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.lineWidth = document.querySelector("#size").value;
+    const touch = event.touches[0];
+    const rect = event.target.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+    [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+}
+
+function stopDrawing() {
+    isDrawing = false;
+}
+
+window.addEventListener("resize", () => {
+    canvas.width = 700;
+    canvas.height = 850;
+});
+
+// 繪圖筆
+function drawButton() {
+    isErasing = false;
+}
+
+// 橡皮擦
+function clearButton() {
+    isErasing = true;
+}
 
 window.addEventListener("load", () => {
     const w = window.innerWidth;
@@ -90,6 +207,7 @@ async function getAskacademyInfo(id) {
 }
 
 async function getAskacademyImage(id) {
+    createNewCanvas(); // 新增一個預設表
     const config = {
         method: "GET",
         responseType: "arraybuffer",
@@ -108,15 +226,16 @@ async function getAskacademyImage(id) {
 
         const img = new Image();
         img.onload = function () {
-            const canvas = document.getElementById("myCanvas");
+            // TODO: 需要修改，用迴圈插入結果
+            const canvas = document.getElementById("canvas1");
             const ctx = canvas.getContext("2d");
             canvas.width = 700;
-            canvas.height = 800;
+            canvas.height = 850;
             ctx.drawImage(img, 0, 0);
         };
         setTimeout(function () {
             img.src = url;
-        }, 1000);
+        }, 2000);
     }
 }
 
@@ -137,7 +256,6 @@ function saveAsImage() {
         });
         let formData = new FormData();
         formData.append("uploaded_file", file);
-        console.log(file);
         const config = {
             method: "POST",
             headers: {

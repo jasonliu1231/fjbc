@@ -42,8 +42,10 @@ function creatTable(data) {
         });
         htmlStr += `
         <tr onclick="toNote(${item.id})">
-          <td>${item.id || ""}</td>
-          <td>${new Date(item.created_at).toLocaleString() || ""}</td>
+          <td>
+            <div>${new Date(item.created_at).toLocaleDateString() || ""}</div>
+            <div>${new Date(item.created_at).toLocaleTimeString("zh-TW", {hour12: false}) || ""}</div>
+        </td>
           <td>${item.student_name || ""}</td>
           <td>${item.school || ""}</td>
           <td><div>家裡：${item.tel || ""}</div>爸爸：${

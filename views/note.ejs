@@ -17,6 +17,7 @@
         width: 700px;
         height: 850px;
         border: 3px double gray;
+        box-sizing: content-box;
       }
 
       .nowrap {
@@ -47,21 +48,30 @@
                 <option value="20">20</option>
               </select>
               <label class="input-group-text" for="color">顏色</label>
-              <input type="color" class="form-control form-control-color" style="width: 40px;" id="color" value="#000000"
-                title="Choose your color" onchange="colorChange()">
+              <input type="color" class="form-control form-control-color" style="width: 40px;" id="color"
+                value="#000000" title="Choose your color" onchange="colorChange()">
             </div>
             <div class="btn-group mx-1" role="group">
-              <input type="radio" class="btn-check" name="btnradio" id="drawButton" autocomplete="off" checked>
+              <input type="radio" class="btn-check" name="btnradio" id="drawButton" autocomplete="off" checked
+                onclick="drawButton()">
               <label class="btn btn-outline-primary text-nowrap" for="drawButton">書寫筆<i class="bi bi-pen"></i></label>
-              <input type="radio" class="btn-check" name="btnradio" id="clearButton" autocomplete="off">
-              <label class="btn btn-outline-primary text-nowrap" for="clearButton">橡皮擦<i class="bi bi-eraser"></i></label>
+              <input type="radio" class="btn-check" name="btnradio" id="clearButton" autocomplete="off"
+                onclick="clearButton()">
+              <label class="btn btn-outline-primary text-nowrap" for="clearButton">橡皮擦<i
+                  class="bi bi-eraser"></i></label>
             </div>
+          </div>
+          <div class="d-flex">
+            <div class="input-group mx-1" style="max-width: 120px;">
+              <label class="input-group-text">頁面</label>
+              <select id="canvasPage" class="form-select form-select" onchange="selectPage()">
+              </select>
+            </div>
+            <i class="bi bi-file-earmark-plus mx-1" onclick="createNewCanvas()">New</i>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body d-flex justify-content-center">
-          <canvas id="myCanvas"></canvas>
-        </div>
+        <div id="canvasContainer" class="offcanvas-body d-flex justify-content-center"></div>
       </div>
       <div class="container">
         <div class="border rounded border-3 p-md-4 p-2 m-md-4 m-2">
@@ -475,98 +485,7 @@
 </body>
 
 <script>
-  const canvas = document.getElementById("myCanvas");
-  const ctx = canvas.getContext("2d");
-  let isDrawing = false;
-  let isErasing = false;
-  let lastX = 0;
-  let lastY = 0;
-  let size = document.querySelector("#size").value;
-  let textColor = document.querySelector("#color").value;
 
-  canvas.width = 700;
-  canvas.height = 850;
-
-  // 監聽點擊瞬間
-  canvas.addEventListener("mousedown", startDrawing);
-  canvas.addEventListener("touchstart", startDrawing);
-
-  // 繪圖
-  canvas.addEventListener("mousemove", draw);
-  canvas.addEventListener("touchmove", draw);
-
-  document.getElementById("drawButton").addEventListener("click", drawButton);
-  document
-    .getElementById("clearButton")
-    .addEventListener("click", clearButton);
-
-  function startDrawing(event) {
-    event.preventDefault();
-    if (
-      event.type === "mousedown" ||
-      (event.type === "touchstart" && event.touches.length === 1)
-    ) {
-      const { offsetX, offsetY } = getOffset(event);
-      if (event.type === "touchstart") {
-        event = event.touches[0];
-      }
-      isDrawing = true;
-      [lastX, lastY] = [offsetX, offsetY];
-    }
-  }
-
-  function draw(event) {
-    event.preventDefault();
-    let isWeb = event.type === "mousemove" ? event.buttons === 1 : true;
-    if (event.type === "touchmove") {
-      event = event.touches[0];
-    }
-
-    if (isDrawing && isWeb) {
-      // 鼠标左键按下
-      const { offsetX, offsetY } = getOffset(event);
-      ctx.strokeStyle = isErasing ? "white" : textColor;
-      ctx.lineJoin = "round";
-      ctx.lineCap = "round";
-      ctx.lineWidth = size;
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(offsetX, offsetY);
-      ctx.stroke();
-      [lastX, lastY] = [offsetX, offsetY];
-    }
-  }
-
-  // 事件在 Canvas 中的偏移位置
-  function getOffset(event) {
-    const rect = canvas.getBoundingClientRect();
-    const offsetX = event.clientX - rect.left;
-    const offsetY = event.clientY - rect.top;
-    return { offsetX, offsetY };
-  }
-
-  window.addEventListener("resize", () => {
-    canvas.width = 700;
-    canvas.height = 800;
-  });
-
-  // 點擊結束
-  // canvas.addEventListener('mouseup', endDrawing);
-  // canvas.addEventListener('touchend', endDrawing);
-
-  // function endDrawing(event) {
-  //   isDrawing = false;
-  //   isErasing = false;
-  // }
-
-  // 切换模式
-  function drawButton() {
-    isErasing = false;
-  }
-
-  function clearButton() {
-    isErasing = true;
-  }
 </script>
 
 </html>

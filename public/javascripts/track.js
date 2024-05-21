@@ -82,7 +82,11 @@ function trackModal() {
     // 如果完成將只能讀不能存
     document.querySelector("#modalfooter").innerHTML = `
     <div class="form-floating w-100">
-        <textarea class="form-control" id="askTextarea"></textarea>
+        <textarea style="height: 200px" class="form-control" id="askTextarea" readonly>新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲</textarea>
+        <label for="askTextarea">追蹤內容</label>
+    </div>
+    <div class="form-floating w-100">
+        <textarea style="height: 100px" class="form-control" id="askTextarea"></textarea>
         <label for="askTextarea">追蹤紀錄</label>
     </div>
     <button type="button" class="btn btn-outline-success">追蹤完成</button>
