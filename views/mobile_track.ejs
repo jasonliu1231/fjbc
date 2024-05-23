@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%-include('head') %>
+    <style>
+      .finish {
+        text-decoration: line-through;
+      }
+    </style>
+</head>
+
+<body>
+  <%-include('mobile_header') %>
+    <%-include('modal') %>
+      <div class="container px-5">
+        <h3 class="p-2">追蹤紀錄</h3>
+        <div class="input-group" role="search">
+          <span class="input-group-text">起始</span>
+          <input id="dateStatr" class="form-control" type="date" aria-label="start">
+        </div>
+        <div class="input-group" role="search">
+          <span class="input-group-text">結束</span>
+          <input id="dateEnd" class="form-control" type="date" aria-label="end">
+        </div>
+        <div class="input-group" role="search">
+          <span class="input-group-text">搜尋</span>
+          <input id="keyword" class="form-control" type="search" placeholder="姓名、電話" aria-label="Search">
+          <button class="btn btn-outline-success text-nowrap" type="submit" onclick="searchAskacademytrack()">搜尋</button>
+        </div>
+        <div id="list"></div>
+      </div>
+</body>
+
+</html>

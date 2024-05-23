@@ -22,91 +22,19 @@
           <input id="dateEnd" class="form-control" type="date" aria-label="end">
           <span class="input-group-text">搜尋</span>
           <input id="keyword" class="form-control" type="search" placeholder="姓名、電話" aria-label="Search">
-          <button class="btn btn-outline-success text-nowrap" type="submit" onclick="search()">搜尋</button>
+          <button class="btn btn-outline-success text-nowrap" type="submit" onclick="searchAskacademytrack()">搜尋</button>
         </div>
         <table class="table">
           <thead>
             <tr>
-              <th class="nowrap w-10">狀態</th>
+              <th class="nowrap w-20">狀態</th>
               <th class="nowrap w-10">日期</th>
               <th class="nowrap w-20">學生姓名</th>
-              <th class="nowrap w-60" style="max-width: 200px;">追蹤內容</th>
+              <th class="nowrap w-10">電話</th>
+              <th class="nowrap w-40">追蹤內容</th>
             </tr>
           </thead>
-          <tbody id="list">
-            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-warning-emphasis bg-warning-subtle">未完成</td>
-              <td class="text-warning-emphasis bg-warning-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-warning-emphasis bg-warning-subtle">ＪＡＭＥＳ</td>
-              <td class="text-warning-emphasis bg-warning-subtle">客場對戰勇士</td>
-            </tr>
-            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-warning-emphasis bg-warning-subtle">未完成</td>
-              <td class="text-warning-emphasis bg-warning-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-warning-emphasis bg-warning-subtle">ＪＡＭＥＳ</td>
-              <td class="text-warning-emphasis bg-warning-subtle">客場對戰勇士</td>
-            </tr>
-            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-danger-emphasis bg-danger-subtle">過期</td>
-              <td class="text-danger-emphasis bg-danger-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-danger-emphasis bg-danger-subtle">碧昂絲</td>
-              <td class="text-danger-emphasis bg-danger-subtle">新歌譜曲</td>
-            </tr>
-            <tr class="finish" onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-success-emphasis bg-success-subtle">已完成</td>
-              <td class="text-success-emphasis bg-success-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-success-emphasis bg-success-subtle">煎餅倫</td>
-              <td class="text-success-emphasis bg-success-subtle">煎餅訂單20個</td>
-            </tr>
-            <tr class="finish" onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-success-emphasis bg-success-subtle">已完成</td>
-              <td class="text-success-emphasis bg-success-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-success-emphasis bg-success-subtle">煎餅倫</td>
-              <td class="text-success-emphasis bg-success-subtle">煎餅訂單20個</td>
-            </tr>
-            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-danger-emphasis bg-danger-subtle">過期</td>
-              <td class="text-danger-emphasis bg-danger-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-danger-emphasis bg-danger-subtle">碧昂絲</td>
-              <td class="text-danger-emphasis bg-danger-subtle">新歌譜曲</td>
-            </tr>
-            <tr class="finish" onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal">
-              <td class="text-success-emphasis bg-success-subtle">已完成</td>
-              <td class="text-success-emphasis bg-success-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-success-emphasis bg-success-subtle">煎餅倫</td>
-              <td class="text-success-emphasis bg-success-subtle">煎餅訂單20個</td>
-            </tr>
-            <tr onclick="trackModal()" data-bs-toggle="modal" data-bs-target="#modal" class="overflow-hidden">
-              <td class="text-danger-emphasis bg-danger-subtle">過期</td>
-              <td class="text-danger-emphasis bg-danger-subtle">
-                <div>2024/5/17</div>
-                <div>16:09:52</div>
-              </td>
-              <td class="text-danger-emphasis bg-danger-subtle">碧昂絲</td>
-              <td class="text-danger-emphasis bg-danger-subtle text-truncate max-w-200">新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲</td>
-            </tr>
-          </tbody>
+          <tbody id="list"></tbody>
         </table>
       </div>
 </body>

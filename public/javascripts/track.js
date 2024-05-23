@@ -1,11 +1,4 @@
 window.addEventListener("load", async () => {
-    const w = window.innerWidth;
-    if (w < 500) {
-        const e = document.querySelectorAll(".input-group");
-        e.forEach((i) => {
-            i.classList.remove("input-group");
-        });
-    }
     // 當前時間
     const date = new Date();
     const today = `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -14,81 +7,213 @@ window.addEventListener("load", async () => {
     document.querySelector("#dateStatr").value = today;
     document.querySelector("#dateEnd").value = today;
 
+    searchAskacademytrack();
+});
+
+async function searchAskacademytrack() {
+    const dateStatr = document.querySelector("#dateStatr").value;
+    const dateEnd = document.querySelector("#dateEnd").value;
+    const keyword = document.querySelector("#keyword").value;
+
+    if (!!!dateStatr || !!!dateEnd) {
+        alert("時間不可以為空白");
+        return;
+    }
+
     const config = {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
         }
     };
-    // const { isOk, data } = await submitObjApi("api/askacademy", config);
 
-    // if (isOk) {
-    //     creatTable(data);
-    // }
-});
-let sampleBody = `<div class="input-group">
-<span class="input-group-text" id="school">學校</span>
-<input type="text" class="form-control" aria-describedby="school" readonly>
-<span class="input-group-text" id="Tel">電話</span>
-<input type="text" class="form-control" aria-describedby="Tel" readonly>
-</div>
-<div class="input-group">
-<span class="input-group-text" id="mother_name">媽媽</span>
-<input type="text" class="form-control" aria-describedby="mother_name" readonly>
-<span class="input-group-text" id="mother_mobile">手機</span>
-<input type="text" class="form-control" aria-describedby="mother_mobile" readonly>
-</div>
-<div class="input-group">
-<span class="input-group-text" id="father_name">爸爸</span>
-<input type="text" class="form-control" aria-describedby="father_name" readonly>
-<span class="input-group-text" id="father_mobile">手機</span>
-<input type="text" class="form-control" aria-describedby="father_mobile" readonly>
-</div>
-<div class="input-group">
-<span class="input-group-text" id="Weekday_time">平日</span>
-<input type="text" class="form-control" aria-describedby="Weekday_time" readonly>
-<span class="input-group-text" id="holiday_time">假日</span>
-<input type="text" class="form-control" aria-describedby="holiday_time" readonly>
-</div>
-<table class="table">
-<thead>
-  <tr>
-    <th>日期</th>
-    <th>追蹤</th>
-    <th>結果</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>2024/5/17 下午4:09:52</td>
-    <td>煎餅訂單20個</td>
-    <td>已交付</td>
-  </tr>
-  <tr>
-    <td>2024/5/11 下午4:09:52</td>
-    <td>煎餅訂單160個</td>
-    <td>已交付100個，尚欠60個</td>
-  </tr>
-  <tr>
-    <td>2024/5/7 下午4:09:52</td>
-    <td>煎餅訂單30個</td>
-    <td>已交付，尚未付款</td>
-  </tr>
-</tbody>
-</table>`
-function trackModal() {
-    document.querySelector("#modalLabel").innerHTML = "學生姓名";
-    document.querySelector("#modalbody").innerHTML = sampleBody;
-    // 如果完成將只能讀不能存
-    document.querySelector("#modalfooter").innerHTML = `
-    <div class="form-floating w-100">
-        <textarea style="height: 200px" class="form-control" id="askTextarea" readonly>新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲新歌譜曲</textarea>
-        <label for="askTextarea">追蹤內容</label>
-    </div>
-    <div class="form-floating w-100">
-        <textarea style="height: 100px" class="form-control" id="askTextarea"></textarea>
-        <label for="askTextarea">追蹤紀錄</label>
-    </div>
-    <button type="button" class="btn btn-outline-success">追蹤完成</button>
-    `;
+    let url = `api/askacademytrack?start_date=${dateStatr}&end_date=${dateEnd}`;
+    if (keyword != "") {
+        url += `&param=${keyword}`;
+    }
+    const { isOk, data } = await submitObjApi(url, config);
+
+    if (isOk) {
+        console.log(data);
+        if (isWeb) {
+            creatTable(data);
+        } else {
+            creatCard(data);
+        }
+    }
+}
+function creatTable(data) {
+    const now = new Date();
+    const element = document.querySelector("#list");
+    element.innerHTML = "";
+    let htmlStr = "";
+    data.track_list.forEach((track) => {
+        const time = new Date(track.track_time);
+        const statusColor = track.status
+            ? "text-success-emphasis bg-success-subtle"
+            : time > now
+            ? "text-warning-emphasis bg-warning-subtle"
+            : "text-danger-emphasis bg-danger-subtle";
+        htmlStr += `
+      <tr onclick="getAskacademytrack(${
+          track.id
+      })" data-bs-toggle="modal" data-bs-target="#modal">
+        <td class="${statusColor}">${
+            track.status ? "已完成" : time > now ? "未完成" : "過期"
+        }</td>
+        <td class="${statusColor}">
+        <div>${time.toLocaleDateString() || ""}</div>
+        <div>${
+            time.toLocaleTimeString("zh-TW", {
+                hour12: false
+            }) || ""
+        }</div>
+        </td>
+        <td class="${statusColor}">${track.academy.student_name}</td>
+        <td class="${statusColor}">${track.academy.Tel || ""}</td>
+        <td class="${statusColor} text-truncate max-w-200">${
+            track.track_content_create
+        }</td>
+      </tr>
+      `;
+    });
+    element.innerHTML = htmlStr;
+}
+
+function creatCard(data) {
+    const now = new Date();
+    const element = document.querySelector("#list");
+    element.innerHTML = "";
+    let htmlStr = "";
+    data.track_list.forEach((track) => {
+        const time = new Date(track.track_time);
+        const statusColor = track.status
+            ? "text-success-emphasis bg-success-subtle"
+            : time > now
+            ? "text-warning-emphasis bg-warning-subtle"
+            : "text-danger-emphasis bg-danger-subtle";
+        const icon = track.status
+            ? `<i class="bi bi-check-circle">已完成</i>`
+            : time > now
+            ? `<i class="bi bi-exclamation-circle">未完成</i>`
+            : `<i class="bi bi-x-circle">過期</i>`;
+        htmlStr += `
+        <div class="card my-1 ${statusColor}" data-bs-toggle="modal" data-bs-target="#modal" onclick="getAskacademytrack(${track.id})">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title">${track.academy.student_name}</h5>
+            <div>${icon}</div>
+          </div>
+          <h6 class="card-subtitle text-body-secondary">${time.toLocaleString()}</h6>
+          <p class="card-text mb-0">聯繫電話：${track.academy.Tel || ""}</p>
+          <p class="card-text mb-0">聯繫電話：${track.academy.mother_mobile || ""}</p>
+          <p class="card-text mb-0">聯繫電話：${track.academy.father_mobile || ""}</p>
+          <p class="card-text mb-0 text-truncate max-w-200"">追蹤內容：${
+              track.track_content_create
+          }</p>
+        </div>
+      </div>
+      `;
+    });
+    element.innerHTML = htmlStr;
+}
+
+function toNote(id) {
+    window.location.href = "note?id=" + id;
+}
+
+async function getAskacademytrack(id) {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademytrack/${id}`,
+        config
+    );
+    if (isOk) {
+        document.querySelector("#modalLabel").innerHTML =
+            data.academy.student_name;
+        const body = `
+      <div class="input-group">
+          <span class="input-group-text">電話</span>
+          <input type="text" class="form-control" readonly value="${
+              data.academy.Tel || ""
+          }">
+      </div>
+      <div class="input-group">
+          <span class="input-group-text">家長1</span>
+          <input type="text" class="form-control" readonly value="${
+              data.academy.mother_mobile || ""
+          }">
+      </div>
+      <div class="input-group">
+          <span class="input-group-text">家長2</span>
+          <input type="text" class="form-control" readonly value="${
+              data.academy.father_mobile || ""
+          }">
+      </div>
+      <div>追蹤時間：${new Date(data.track_time).toLocaleString()}</div>
+      <div>追蹤內容：</div>
+      <p>${data.track_content_create}</P>`;
+        document.querySelector("#modalbody").innerHTML = body;
+        let footer = `
+      <div class="form-floating w-100">
+          <textarea style="height: 100px" class="form-control" id="trackTextareaAns" ${
+              data.status ? "readonly" : ""
+          }>${data.track_content_update || ""}</textarea>
+          <label for="askTextarea">追蹤紀錄</label>
+      </div>
+      <div class="d-flex justify-content-between w-100">
+        <button type="button" class="btn btn-outline-success" onclick="toNote(${
+            data.academy_id
+        })">查詢資訊</button>`;
+        if (!data.status) {
+            footer += ` 
+            <div class="d-flex align-items-center">
+              <div class="form-check form-switch mx-1">
+                  <input class="form-check-input" type="checkbox" role="switch" id="isFinish" checked>
+                  <label class="form-check-label" for="isFinish">是否完成</label>
+              </div>`;
+            footer += `<button type="button" class="btn btn-outline-success" onclick="updateTrack(${data.id}, ${data.academy_id})">儲存</button>
+              </div>`;
+        }
+        footer += `</div>`;
+        document.querySelector("#modalfooter").innerHTML = footer;
+    }
+}
+
+async function updateTrack(id, academy_id) {
+    const trackTextareaAns = document.querySelector("#trackTextareaAns");
+    trackTextareaAns.classList.remove("border");
+    trackTextareaAns.classList.remove("border-danger");
+
+    if (!trackTextareaAns.value) {
+        trackTextareaAns.classList.add("border");
+        trackTextareaAns.classList.add("border-danger");
+        alert("追蹤事項不可以是空白");
+        return;
+    }
+    const isChecked = document.querySelector("#isFinish").checked;
+    const config = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            academy_id: academy_id,
+            track_content_update: trackTextareaAns.value,
+            status: isChecked
+        })
+    };
+
+    const { isOk, data } = await submitObjApi(
+        `api/askacademytrack/${id}`,
+        config
+    );
+    if (isOk) {
+        document.querySelector("#modalBtn").click();
+    }
 }

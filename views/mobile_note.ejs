@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%-include('head') %>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+
+      .nowrap {
+        display: inline-block;
+        white-space: nowrap;
+      }
+    </style>
+    <script>
+
+    </script>
+</head>
+
+<body>
+  <%-include('mobile_header') %>
+    <%-include('modal') %>
+      <div class="container">
+        <div class="border rounded border-3 p-md-4 p-2 m-md-4 m-2">
+          <div id="studentInfo" class="text-start"></div>
+          <h1 class="text-center">多易文理補習班</h1>
+          <h3 class="p-2">基本資料</h3>
+          <div class="input-group">
+            <span class="input-group-text">學生姓名</span>
+            <input type="text" aria-label="student_name" id="student_name" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">英文名子</span>
+            <input type="text" aria-label="student_name_en" id="student_name_en" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">學生手機</span>
+            <input type="text" aria-label="student_mobile" id="student_mobile" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">就讀學校</span>
+            <input type="text" aria-label="school" id="school" class="form-control" />
+          </div>
+          <div class="input-group">
+            <label class="input-group-text" for="grade">就讀年級</label>
+            <select class="form-select" id="grade">
+              <option value=""></option>
+              <option value="幼大班">幼大班</option>
+              <option value="國小一年級">國小一年級</option>
+              <option value="國小二年級">國小二年級</option>
+              <option value="國小三年級">國小三年級</option>
+              <option value="國小四年級">國小四年級</option>
+              <option value="國小五年級">國小五年級</option>
+              <option value="國小六年級">國小六年級</option>
+              <option value="國中一年級">國中一年級</option>
+              <option value="國中二年級">國中二年級</option>
+              <option value="國中三年級">國中三年級</option>
+              <option value="高中一年級">高中一年級</option>
+              <option value="高中二年級">高中二年級</option>
+              <option value="高中三年級">高中三年級</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">聯絡電話</span>
+            <input type="text" aria-label="tel" id="tel" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">居住地址</span>
+            <input type="text" aria-label="address" id="address" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長1姓名</span>
+            <input type="text" aria-label="father_name" id="father_name" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長1手機</span>
+            <input type="text" aria-label="father_mobile" id="father_mobile" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長1職業</span>
+            <input type="text" aria-label="father_profession" id="father_profession" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長1公司電話</span>
+            <input type="text" aria-label="father_office_tel" id="father_office_tel" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長2姓名</span>
+            <input type="text" aria-label="mother_name" id="mother_name" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長2手機</span>
+            <input type="text" aria-label="mother_mobile" id="mother_mobile" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長2職業</span>
+            <input type="text" aria-label="mother_profession" id="mother_profession" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">家長2公司電話</span>
+            <input type="text" aria-label="mother_office_tel" id="mother_office_tel" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">假日連絡時間</span>
+            <input type="text" aria-label="holiday_time" id="holiday_time" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">平日連絡時間</span>
+            <input type="text" aria-label="Weekday_time" id="Weekday_time" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">有興趣的班別</span>
+            <div class="form-control">
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="國文" id="class_chinese" />
+                <label class="form-check-label" for="class_chinese"> 國文 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="數學" id="class_math" />
+                <label class="form-check-label" for="class_math"> 數學 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="英文" id="class_english" />
+                <label class="form-check-label" for="class_english"> 英文 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="社會" id="class_social" />
+                <label class="form-check-label" for="class_social"> 社會 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="物理" id="class_natural" />
+                <label class="form-check-label" for="class_natural"> 物理 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="化學" id="class_chemistry" />
+                <label class="form-check-label" for="class_chemistry"> 化學 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="生物" id="class_biology" />
+                <label class="form-check-label" for="class_biology"> 生物 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="地科" id="class_earthScience" />
+                <label class="form-check-label" for="class_earthScience"> 地科 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="自然" id="class_science" />
+                <label class="form-check-label" for="class_science"> 自然 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input course_list" type="checkbox" value="理化" id="class_physics" />
+                <label class="form-check-label" for="class_physics"> 理化 </label>
+              </div>
+            </div>
+            <span class="input-group-text">其他</span>
+            <input id="course_extend" type="text" aria-label="class_other" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">兄弟姊妹</span>
+            <div class="form-control">
+              <div class="input-group">
+                <span class="input-group-text">兄姐姓名</span>
+                <input type="text" aria-label="brother1" id="brother1" class="form-control" />
+              </div>
+              <div class="input-group">
+                <label class="input-group-text" for="brother1_grade">年級</label>
+                <select class="form-select" id="brother1_grade">
+                  <option value=""></option>
+                  <option value="幼大班">幼大班</option>
+                  <option value="國小一年級">國小一年級</option>
+                  <option value="國小二年級">國小二年級</option>
+                  <option value="國小三年級">國小三年級</option>
+                  <option value="國小四年級">國小四年級</option>
+                  <option value="國小五年級">國小五年級</option>
+                  <option value="國小六年級">國小六年級</option>
+                  <option value="國中一年級">國中一年級</option>
+                  <option value="國中二年級">國中二年級</option>
+                  <option value="國中三年級">國中三年級</option>
+                  <option value="高中一年級">高中一年級</option>
+                  <option value="高中二年級">高中二年級</option>
+                  <option value="高中三年級">高中三年級</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <span class="input-group-text">弟妹姓名</span>
+                <input type="text" aria-label="brother2" id="brother2" class="form-control" />
+              </div>
+              <div class="input-group">
+                <label class="input-group-text" for="brother2_grade">年級</label>
+                <select class="form-select" id="brother2_grade">
+                  <option value=""></option>
+                  <option value="幼大班">幼大班</option>
+                  <option value="國小一年級">國小一年級</option>
+                  <option value="國小二年級">國小二年級</option>
+                  <option value="國小三年級">國小三年級</option>
+                  <option value="國小四年級">國小四年級</option>
+                  <option value="國小五年級">國小五年級</option>
+                  <option value="國小六年級">國小六年級</option>
+                  <option value="國中一年級">國中一年級</option>
+                  <option value="國中二年級">國中二年級</option>
+                  <option value="國中三年級">國中三年級</option>
+                  <option value="高中一年級">高中一年級</option>
+                  <option value="高中二年級">高中二年級</option>
+                  <option value="高中三年級">高中三年級</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">本班資訊來源</span>
+            <div class="form-control">
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="親友介紹" id="source1" />
+                <label class="form-check-label" for="source1">
+                  親友介紹
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="校園DM" id="source2" />
+                <label class="form-check-label" for="source2">
+                  校園DM
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="寄發DM" id="source3" />
+                <label class="form-check-label" for="source3"> 寄發DM </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="簡訊" id="source4" />
+                <label class="form-check-label" for="source4"> 簡訊 </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="多易文教網站" id="source5" />
+                <label class="form-check-label" for="source5">
+                  多易文教網站
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="Google 表單" id="source6" />
+                <label class="form-check-label" for="source6">
+                  Google 表單
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="FaceBook" id="source7" />
+                <label class="form-check-label" for="source7">
+                  FaceBook
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="關鍵字搜尋" id="source8" />
+                <label class="form-check-label" for="source8">
+                  關鍵字搜尋
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="電推" id="source9" />
+                <label class="form-check-label" for="source9">
+                  電推
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="LINE" id="source10" />
+                <label class="form-check-label" for="source10">
+                  LINE
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="路過" id="source11" />
+                <label class="form-check-label" for="source11">
+                  路過
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input source_list" type="checkbox" value="其他" id="source12" />
+                <label class="form-check-label" for="source12">
+                  其他
+                </label>
+              </div>
+            </div>
+          </div>
+          <h3 class="p-2">學生狀況</h3>
+          <div class="input-group">
+            <span class="input-group-text">段考校排</span>
+            <input type="text" aria-label="exam_ranking" id="exam_ranking" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">模考校排</span>
+            <input type="text" aria-label="exam_ranking1" id="exam_ranking1" class="form-control" />
+            <span class="input-group-text">模考區排</span>
+            <input type="text" aria-label="exam_ranking2" id="exam_ranking2" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">國文成績</span>
+            <input type="text" aria-label="chinese_score" id="chinese_score" class="form-control" />
+            <span class="input-group-text">數學成績</span>
+            <input type="text" aria-label="math_score" id="math_score" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">英文成績</span>
+            <input type="text" aria-label="english_score" id="english_score" class="form-control" />
+            <span class="input-group-text">英聽成績</span>
+            <div class="form-control">
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" name="english_listening" value="3"
+                  id="english_listening_good" />
+                <label class="form-check-label" for="english_listening_good">
+                  強
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" name="english_listening" value="2"
+                  id="english_listening_so" />
+                <label class="form-check-label" for="english_listening_so">
+                  中
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" name="english_listening" value="1"
+                  id="english_listening_bad" />
+                <label class="form-check-label" for="english_listening_bad">
+                  弱
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">自然成績</span>
+            <input type="text" id="enature_score" aria-label="enature_score" class="form-control" />
+            <span class="input-group-text">生物成績</span>
+            <input type="text" id="biology_score" aria-label="biology_score" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">物理成績</span>
+            <input type="text" id="physics_score" aria-label="physics_score" class="form-control" />
+            <span class="input-group-text">化學成績</span>
+            <input type="text" id="chemical_score" aria-label="chemical_score" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">地科成績</span>
+            <input type="text" id="earth_science_score" aria-label="earth_science_score" class="form-control" />
+            <span class="input-group-text">理化成績</span>
+            <input type="text" id="physics_chemical_score" aria-label="physics_chemical_score" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">社會成績</span>
+            <input type="text" id="social_score" aria-label="social_score" class="form-control" />
+            <span class="input-group-text">地理成績</span>
+            <input type="text" id="geography_score" aria-label="geography_score" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">歷史成績</span>
+            <input type="text" id="history_score" aria-label="history_score" class="form-control" />
+            <span class="input-group-text">公民成績</span>
+            <input type="text" id="civics_score" aria-label="civics_score" class="form-control" />
+          </div>
+          <h3 class="p-2">課程表</h3>
+          <div class="input-group">
+            <span class="input-group-text">星期一</span>
+            <input type="text" id="activity_status1" aria-label="activity_status1" class="form-control" />
+            <span class="input-group-text">星期二</span>
+            <input type="text" id="activity_status2" aria-label="activity_status2" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">星期三</span>
+            <input type="text" id="activity_status3" aria-label="activity_status3" class="form-control" />
+            <span class="input-group-text">星期四</span>
+            <input type="text" id="activity_status4" aria-label="activity_status4" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">星期五</span>
+            <input type="text" id="activity_status5" aria-label="activity_status5" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">星期六-早</span>
+            <input type="text" id="activity_status6_1" aria-label="activity_status6_1" class="form-control" />
+            <span class="input-group-text">星期六-中</span>
+            <input type="text" id="activity_status6_2" aria-label="activity_status6_2" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">星期六-晚</span>
+            <input type="text" id="activity_status6_3" aria-label="activity_status6_3" class="form-control" />
+            <span class="input-group-text">星期日-早</span>
+            <input type="text" id="activity_status7_1" aria-label="activity_status7_1" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">星期日-中</span>
+            <input type="text" id="activity_status7_2" aria-label="activity_status7_2" class="form-control" />
+            <span class="input-group-text">星期日-晚</span>
+            <input type="text" id="activity_status7_3" aria-label="activity_status7_3" class="form-control" />
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">詢班方式</span>
+            <div class="form-control">
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" value="電話" name="inquiry_method" id="inquiry_tel" />
+                <label class="form-check-label" for="inquiry_tel">
+                  電話
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" value="現場" name="inquiry_method" id="inquiry_live" />
+                <label class="form-check-label" for="inquiry_live">
+                  現場
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" value="E-MAIL" name="inquiry_method" id="inquiry_mail" />
+                <label class="form-check-label" for="inquiry_mail">
+                  E-MAIL
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" value="官網" name="inquiry_method" id="inquiry_web" />
+                <label class="form-check-label" for="inquiry_web">
+                  官網
+                </label>
+              </div>
+              <div class="nowrap">
+                <input class="form-check-input" type="radio" value="其他" name="inquiry_method" id="inquiry_other" />
+                <label class="form-check-label" for="inquiry_other">
+                  其他
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">接待老師</span>
+            <input type="text" aria-label="reception" id="reception" class="form-control" />
+          </div>
+          <p class="px-3 link-danger">已同意本表單收集之個人資料使用權，僅於「多易文理補習班」使用，非經當事人同意，不轉作其他用途。</p>
+
+          <div class="d-grid gap-2 d-flex">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal"
+                onclick="setTrackModal()">追蹤紀錄</button>
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal"
+                onclick="setAskclassModal()">問班紀錄</button>
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal"
+                onclick="setChangeModal()">修改紀錄</button>
+              <button id="saveButton" type="button" class="btn btn-outline-success px-4 text-nowrap"
+                onclick="submit()">儲存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+
+</html>

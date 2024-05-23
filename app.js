@@ -7,8 +7,18 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const adminRouter = require("./routes/admin");
 const apiRouter = require("./routes/api");
+const session = require("express-session");
 
 const app = express();
+
+app.use(
+    session({
+        secret: "fjbc app",
+        resave: true,
+        saveUninitialized: true,
+        cookie: { maxAge: 24 * 60 * 60 * 1000 } // 過期時間？先設定一天
+    })
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

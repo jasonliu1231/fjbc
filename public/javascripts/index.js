@@ -1,20 +1,6 @@
-function setMedia() {
-    const w = window.innerWidth;
-    if (w < 500) {
-        const e = document.querySelectorAll(".input-group");
-        e.forEach((i) => {
-            i.classList.remove("input-group");
-        });
-    }
-}
-
 async function submit() {
     // 基本資料
     const student_name = document.querySelector("#student_name").value || null;
-    if (!student_name) {
-        alert("請填寫學生姓名");
-        return;
-    }
     const student_name_en =
         document.querySelector("#student_name_en").value || null;
     const student_mobile =
@@ -135,6 +121,30 @@ async function submit() {
         ? document.querySelector("input[name='inquiry_method']:checked").value
         : null;
     const reception = document.querySelector("#reception").value || null;
+
+    let element = document.querySelector("#student_name");
+    element.classList.remove("border");
+    element.classList.remove("border-danger");
+    element = document.querySelector("#tel");
+    element.classList.remove("border");
+    element.classList.remove("border-danger");
+
+    if (!student_name) {
+        const element = document.querySelector("#student_name");
+        element.classList.add("border");
+        element.classList.add("border-danger");
+
+        alert("請填寫學生姓名");
+        return;
+    }
+
+    if (!tel) {
+        const element = document.querySelector("#tel");
+        element.classList.add("border");
+        element.classList.add("border-danger");
+        alert("請填寫電話");
+        return;
+    }
 
     const info = {
         student_name,

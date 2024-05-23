@@ -4,7 +4,10 @@ let isErasing = false;
 let lastX = 0;
 let lastY = 0;
 let page = 0;
+let isChanged = false;
+let currentPageId = "";
 
+// 繪圖相關 function
 function createNewCanvas() {
     page++;
     let canvasContainer = document.getElementById("canvasContainer");
@@ -24,8 +27,11 @@ function createNewCanvas() {
     newCanvas.ontouchmove = drawTouch;
     newCanvas.ontouchend = stopDrawing;
 
-    canvasContainer.appendChild(newCanvas);
-    createNewPage(page);
+    if (isWeb) {
+        canvasContainer.appendChild(newCanvas);
+        createNewPage(page);
+    }
+    
 }
 
 function createNewPage(page) {
@@ -36,7 +42,7 @@ function createNewPage(page) {
     newPage.checked = true;
     canvasPage.appendChild(newPage);
     canvasPage.value = "canvas" + page;
-    selectPage()
+    selectPage();
 }
 
 function selectPage() {
@@ -49,6 +55,10 @@ function selectPage() {
             canvas.style.display = "none";
         }
     });
+    if (isChanged) {
+        saveAsImage(currentPageId);
+        isChanged = false;
+    }
 }
 
 function startDrawing(event) {
@@ -70,6 +80,8 @@ function draw(event) {
     ctx.lineTo(event.offsetX, event.offsetY);
     ctx.stroke();
     [lastX, lastY] = [event.offsetX, event.offsetY];
+    isChanged = true;
+    currentPageId = event.target.id;
 }
 
 function startDrawingTouch(event) {
@@ -96,16 +108,18 @@ function drawTouch(event) {
     ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
     ctx.stroke();
     [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+    isChanged = true;
+    currentPageId = event.target.id;
 }
 
 function stopDrawing() {
     isDrawing = false;
 }
 
-window.addEventListener("resize", () => {
-    canvas.width = 700;
-    canvas.height = 850;
-});
+// window.addEventListener("resize", () => {
+//     canvas.width = 700;
+//     canvas.height = 850;
+// });
 
 // 繪圖筆
 function drawButton() {
@@ -117,15 +131,8 @@ function clearButton() {
     isErasing = true;
 }
 
+// 一般 function
 window.addEventListener("load", () => {
-    const w = window.innerWidth;
-    if (w < 500) {
-        const e = document.querySelectorAll(".input-group");
-        e.forEach((i) => {
-            i.classList.remove("input-group");
-        });
-        document.querySelector("#canvasbtn").remove();
-    }
     const urlParams = new URLSearchParams(window.location.search);
     id = urlParams.get("id");
     getAskacademyInfo(id);
@@ -141,101 +148,148 @@ async function getAskacademyInfo(id) {
     };
     const { isOk, data } = await submitObjApi(`api/askacademy/${id}`, config);
     if (isOk) {
-        const itemNames = Object.keys(data);
-        itemNames.forEach((itemName) => {
-            if (
-                itemName != "created_at" ||
-                itemName != "course_list" ||
-                itemName != "source_list" ||
-                itemName != "english_listening" ||
-                itemName != "inquiry_method"
-            ) {
-                const element = document.querySelector(`#${itemName}`);
-                if (element != null) {
-                    element.value = data[itemName];
-                }
-            }
-            // 填表時間
-            document.querySelector("#studentInfo").innerHTML =
-                "填表日期：" + new Date(data.created_at).toLocaleString();
-            // 問班來源
-            if (itemName == "source_list") {
-                if (data[itemName].length > 0) {
-                    const source_list =
-                        document.querySelectorAll(".source_list");
-                    data[itemName].forEach((i) => {
-                        source_list.forEach((e) => {
-                            if (e.value == i.source_name) {
-                                e.checked = true;
-                            }
-                        });
-                    });
-                }
-            }
-            // 期望科目
-            if (itemName == "course_list") {
-                if (data[itemName].length > 0) {
-                    const course_list =
-                        document.querySelectorAll(".course_list");
-                    data[itemName].forEach((i) => {
-                        course_list.forEach((e) => {
-                            if (e.value == i.course_name) {
-                                e.checked = true;
-                            }
-                        });
-                    });
-                }
-            }
-            // 英聽成績
-            if (itemName == "english_listening") {
-                if (data[itemName] != null) {
-                    document.querySelector(
-                        `input[name="english_listening"][value="${data[itemName]}"]`
-                    ).checked = true;
-                }
-            }
-            // 詢班方式
-            if (itemName == "inquiry_method") {
-                if (data[itemName] != null) {
-                    document.querySelector(
-                        `input[name="inquiry_method"][value="${data[itemName]}"]`
-                    ).checked = true;
-                }
-            }
-        });
+        setAskclassTable(data, false);
     }
 }
 
+function setAskclassTable(data, disabled) {
+    const itemNames = Object.keys(data);
+    itemNames.forEach((itemName) => {
+        if (
+            itemName != "created_at" ||
+            itemName != "course_list" ||
+            itemName != "source_list" ||
+            itemName != "english_listening" ||
+            itemName != "inquiry_method"
+        ) {
+            const element = document.querySelector(`#${itemName}`);
+            if (element != null) {
+                if (disabled) {
+                    element.setAttribute("disabled", "disabled");
+                }
+                element.value = data[itemName];
+            }
+        }
+        // 填表時間
+        document.querySelector("#studentInfo").innerHTML =
+            "填表日期：" +
+            new Date(data.created_at || data.updated_at).toLocaleString();
+        // 問班來源
+        if (itemName == "source_list") {
+            if (data[itemName].length > 0) {
+                const source_list = document.querySelectorAll(".source_list");
+                data[itemName].forEach((i) => {
+                    source_list.forEach((e) => {
+                        if (disabled) {
+                            e.setAttribute("disabled", "disabled");
+                        }
+                        if (e.value == i.source_name) {
+                            e.checked = true;
+                        }
+                    });
+                });
+            }
+        }
+        // 期望科目
+        if (itemName == "course_list") {
+            if (data[itemName].length > 0) {
+                const course_list = document.querySelectorAll(".course_list");
+                data[itemName].forEach((i) => {
+                    course_list.forEach((e) => {
+                        if (disabled) {
+                            e.setAttribute("disabled", "disabled");
+                        }
+                        if (e.value == i.course_name) {
+                            e.checked = true;
+                        }
+                    });
+                });
+            }
+        }
+        // 英聽成績
+        if (itemName == "english_listening") {
+            if (disabled) {
+                const english_listening = document.querySelectorAll(
+                    "input[name='english_listening']"
+                );
+                english_listening.forEach((e) => {
+                    e.setAttribute("disabled", "disabled");
+                });
+            }
+            if (data[itemName] != null) {
+                document.querySelector(
+                    `input[name="english_listening"][value="${data[itemName]}"]`
+                ).checked = true;
+            }
+        }
+        // 詢班方式
+        if (itemName == "inquiry_method") {
+            if (disabled) {
+                const inquiry_method = document.querySelectorAll(
+                    "input[name='inquiry_method']"
+                );
+                inquiry_method.forEach((e) => {
+                    e.setAttribute("disabled", "disabled");
+                });
+            }
+            if (data[itemName] != null) {
+                document.querySelector(
+                    `input[name="inquiry_method"][value="${data[itemName]}"]`
+                ).checked = true;
+            }
+        }
+    });
+}
+
 async function getAskacademyImage(id) {
-    createNewCanvas(); // 新增一個預設表
-    const config = {
+    createNewCanvas();
+    let config = {
         method: "GET",
-        responseType: "arraybuffer",
         headers: {
-            // "Content-Type": "application/json",
+            "Content-Type": "application/json"
         }
     };
-    const { isOk, data } = await submitImageApi(
-        `api/askacademy/image/${id}`,
+    let { isOk, data } = await submitObjApi(
+        `api/askacademy/image?ask_asademy_id=${id}&image_id=0`,
         config
     );
-
-    if (isOk && data.byteLength != 0) {
-        const blob = new Blob([data], { type: "image/png" });
-        const url = URL.createObjectURL(blob);
-
-        const img = new Image();
-        img.onload = function () {
-            // TODO: 需要修改，用迴圈插入結果
-            const canvas = document.getElementById("canvas1");
-            const ctx = canvas.getContext("2d");
-            canvas.width = 700;
-            canvas.height = 850;
-            ctx.drawImage(img, 0, 0);
+    if (isOk) {
+        const len = data.counts;
+        config = {
+            method: "GET",
+            responseType: "arraybuffer",
+            headers: {
+                // "Content-Type": "application/json",
+            }
         };
-        setTimeout(function () {
-            img.src = url;
-        }, 2000);
+        for (let i = 1; i <= len; i++) {
+            // 如果多於一張圖表再新增一個畫布
+            if (i > 1) {
+                createNewCanvas();
+            }
+            let { isOk, data } = await submitImageApi(
+                `api/askacademy/image?ask_asademy_id=${id}&image_id=${i}`,
+                config
+            );
+
+            if (isOk && data.byteLength != 0) {
+                const blob = new Blob([data], { type: "image/png" });
+                const url = URL.createObjectURL(blob);
+
+                const img = new Image();
+                img.onload = function () {
+                    // TODO: 需要修改，用迴圈插入結果
+                    const canvas = document.getElementById(`canvas${i}`);
+                    const ctx = canvas.getContext("2d");
+                    canvas.width = 700;
+                    canvas.height = 850;
+                    ctx.drawImage(img, 0, 0);
+                };
+                setTimeout(function () {
+                    img.src = url;
+                }, 1000);
+            }
+        }
     }
 }
 
@@ -248,8 +302,9 @@ function colorChange() {
 }
 
 // 保存 Canvas 内容
-function saveAsImage() {
-    const canvas = document.getElementById("myCanvas");
+function saveAsImage(currentPageId) {
+    const index = currentPageId.substring(6); // 切割取得數字
+    const canvas = document.getElementById(currentPageId);
     canvas.toBlob(async function (blob) {
         const file = new File([blob], "canvas_image.png", {
             type: "image/png"
@@ -265,7 +320,7 @@ function saveAsImage() {
             body: formData
         };
         const { isOk, data } = await submitObjApi(
-            `api/askacademy/image/${id}`,
+            `api/askacademy/image?ask_asademy_id=${id}&image_id=${index}`,
             config
         );
     });
@@ -456,7 +511,9 @@ async function submit() {
         course_list,
         source_list
     };
-    saveAsImage();
+    if (isChanged) {
+        saveAsImage(currentPageId); // 固定存取當前畫布
+    }
     const config = {
         method: "PUT",
         headers: {
@@ -469,62 +526,420 @@ async function submit() {
         window.location.reload();
     }
 }
-let sampleBody = `<table class="table">
-<thead>
-  <tr>
-    <th>時間</th>
-    <th>內容</th>
-    <th>修改者</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <th>2024/5/17 下午4:09:52</th>
-    <th>...</th>
-    <th>員工Ａ</th>
-  </tr>
-  <tr>
-    <th>2024/5/17 下午4:09:52</th>
-    <th>...</th>
-    <th>員工Ａ</th>
-  </tr>
-  <tr>
-    <th>2024/5/17 下午4:09:52</th>
-    <th>...</th>
-    <th>員工Ａ</th>
-  </tr>
-</tbody>
-</table>`;
+
 async function setTrackModal() {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademytrack?academy_id=${id}`,
+        config
+    );
+
+    // 生成表格
+    const table = document.createElement("table");
+    table.className = "table table-hover";
+    const thead = document.createElement("thead");
+    table.appendChild(thead);
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    let tr = document.createElement("tr");
+    thead.appendChild(tr);
+    let th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "狀態";
+    th.className = "w-20";
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "時間";
+    th.className = "w-20";
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "追蹤內容";
+
+    const now = new Date();
+    if (isOk && data.count > 0) {
+        const track_list = data.track_list;
+        track_list.forEach((track) => {
+            const time = new Date(track.track_time);
+            const statusColor = track.status
+                ? "text-success-emphasis bg-success-subtle"
+                : time > now
+                ? "text-warning-emphasis bg-warning-subtle"
+                : "text-danger-emphasis bg-danger-subtle";
+            tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            tr.setAttribute("data-bs-target", "#modal2");
+            tr.setAttribute("data-bs-toggle", "modal");
+            tr.onclick = () => getAskacademytrack(track.id);
+            let td = document.createElement("td");
+            tr.appendChild(td);
+            td.className = statusColor;
+            td.textContent = track.status
+                ? "已完成"
+                : time > now
+                ? "未完成"
+                : "過期";
+
+            td = document.createElement("td");
+            tr.appendChild(td);
+            td.className = statusColor;
+            let div = document.createElement("div");
+            td.appendChild(div);
+            div.textContent = time.toLocaleDateString();
+            div = document.createElement("div");
+            td.appendChild(div);
+            div.textContent = time.toLocaleTimeString("zh-TW", {
+                hour12: false
+            });
+
+            td = document.createElement("td");
+            tr.appendChild(td);
+            td.className = statusColor + " text-truncate max-w-200";
+            td.textContent = track.track_content_create;
+        });
+    }
     document.querySelector("#modalLabel").innerHTML = "追蹤紀錄";
-    document.querySelector("#modalbody").innerHTML = sampleBody;
+    document.querySelector("#modalbody").innerHTML = "";
+    document.querySelector("#modalbody").appendChild(table);
     document.querySelector("#modalfooter").innerHTML = `
     <div class="form-floating w-100">
         <textarea class="form-control" id="trackTextarea"></textarea>
         <label for="trackTextarea">追蹤事項</label>
     </div>
     <div class="input-group w-100">
-        <span class="input-group-text" id="trackTime">追蹤時間</span>
-        <input type="datetime-local" class="form-control" aria-label="Username" aria-describedby="trackTime">
+        <span class="input-group-text">追蹤時間</span>
+        <input type="datetime-local" class="form-control" aria-label="Username" aria-describedby="trackTime" id="trackTime">
     </div>
-    <button type="button" class="btn btn-outline-success">新增追蹤</button>
+    <button type="button" class="btn btn-outline-success" onclick="addAskacademytrack()">新增追蹤</button>
     `;
 }
 
+async function getAskacademytrack(id) {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademytrack/${id}`,
+        config
+    );
+    if (isOk) {
+        document.querySelector("#modalLabel2").innerHTML =
+            data.academy.student_name;
+        const body = `
+        <div class="input-group">
+            <span class="input-group-text">電話</span>
+            <input type="text" class="form-control" readonly value="${
+                data.academy.Tel || ""
+            }">
+        </div>
+        <div class="input-group">
+            <span class="input-group-text">家長1</span>
+            <input type="text" class="form-control" readonly value="${
+                data.academy.mother_mobile || ""
+            }">
+        </div>
+        <div class="input-group">
+            <span class="input-group-text">家長2</span>
+            <input type="text" class="form-control" readonly value="${
+                data.academy.father_mobile || ""
+            }">
+        </div>
+        <div>追蹤時間：${new Date(data.track_time).toLocaleString()}</div>
+        <div>追蹤內容：</div>
+        <p>${data.track_content_create}</P>`;
+        document.querySelector("#modalbody2").innerHTML = body;
+        let footer = `
+        <div class="form-floating w-100">
+            <textarea style="height: 100px" class="form-control" id="trackTextareaAns" ${
+                data.status ? "readonly" : ""
+            }>${data.track_content_update || ""}</textarea>
+            <label for="askTextarea">追蹤紀錄</label>
+        </div>`;
+        if (!data.status) {
+            footer += ` 
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="isFinish" checked>
+                <label class="form-check-label" for="isFinish">是否完成</label>
+            </div>`;
+            footer += `<button type="button" class="btn btn-outline-success" onclick="updateTrack(${data.id}, ${data.academy_id})">儲存</button>`;
+        }
+        document.querySelector("#modalfooter2").innerHTML = footer;
+    }
+}
+
+async function updateTrack(id, academy_id) {
+    const trackTextareaAns = document.querySelector("#trackTextareaAns");
+    trackTextareaAns.classList.remove("border");
+    trackTextareaAns.classList.remove("border-danger");
+
+    if (!trackTextareaAns.value) {
+        trackTextareaAns.classList.add("border");
+        trackTextareaAns.classList.add("border-danger");
+        alert("追蹤事項不可以是空白");
+        return;
+    }
+    const isChecked = document.querySelector("#isFinish").checked;
+    const config = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            academy_id: academy_id,
+            track_content_update: trackTextareaAns.value,
+            status: isChecked
+        })
+    };
+
+    const { isOk, data } = await submitObjApi(
+        `api/askacademytrack/${id}`,
+        config
+    );
+    if (isOk) {
+        document.querySelector("#modalBtn2").click();
+    }
+}
+
+async function addAskacademytrack() {
+    const trackTextarea = document.querySelector("#trackTextarea");
+    trackTextarea.classList.remove("border");
+    trackTextarea.classList.remove("border-danger");
+    const trackTime = document.querySelector("#trackTime");
+    trackTime.classList.remove("border");
+    trackTime.classList.remove("border-danger");
+
+    if (!trackTextarea.value) {
+        trackTextarea.classList.add("border");
+        trackTextarea.classList.add("border-danger");
+        alert("追蹤事項不可以是空白");
+        return;
+    }
+
+    if (!trackTime.value) {
+        trackTime.classList.add("border");
+        trackTime.classList.add("border-danger");
+        alert("請確定追蹤時間");
+        return;
+    }
+
+    const config = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            academy_id: id,
+            track_content_create: trackTextarea.value,
+            track_time: trackTime.value
+        })
+    };
+
+    const { isOk, data } = await submitObjApi("api/askacademytrack", config);
+    if (isOk) {
+        document.querySelector("#modalBtn").click();
+    }
+}
+
 async function setAskclassModal() {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademyrecord?academy_id=${id}`,
+        config
+    );
+
+    // 生成表格
+    const table = document.createElement("table");
+    table.className = "table table-hover";
+    const thead = document.createElement("thead");
+    table.appendChild(thead);
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    let tr = document.createElement("tr");
+    thead.appendChild(tr);
+    let th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "接待人";
+    th.className = "w-20";
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "時間";
+    th.className = "w-20";
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "追蹤內容";
+
+    if (isOk && data.count > 0) {
+        const AskAcademy_list = data.AskAcademy_list;
+        AskAcademy_list.forEach((academy) => {
+            const time = new Date(academy.created_at);
+            tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            tr.setAttribute("data-bs-target", "#modal2");
+            tr.setAttribute("data-bs-toggle", "modal");
+            tr.onclick = () => getAskacademyrecord(academy.id);
+            let td = document.createElement("td");
+            tr.appendChild(td);
+            td.textContent = academy.builder;
+
+            td = document.createElement("td");
+            tr.appendChild(td);
+            let div = document.createElement("div");
+            td.appendChild(div);
+            div.textContent = time.toLocaleDateString();
+            div = document.createElement("div");
+            td.appendChild(div);
+            div.textContent = time.toLocaleTimeString("zh-TW", {
+                hour12: false
+            });
+
+            td = document.createElement("td");
+            tr.appendChild(td);
+            td.className = "text-truncate max-w-200";
+            td.textContent = academy.content;
+        });
+    }
     document.querySelector("#modalLabel").innerHTML = "問班紀錄";
-    document.querySelector("#modalbody").innerHTML = sampleBody;
+    document.querySelector("#modalbody").innerHTML = "";
+    document.querySelector("#modalbody").appendChild(table);
     document.querySelector("#modalfooter").innerHTML = `
     <div class="form-floating w-100">
         <textarea class="form-control" id="askTextarea"></textarea>
         <label for="askTextarea">問班紀錄</label>
     </div>
-    <button type="button" class="btn btn-outline-success">新增紀錄</button>
+    <button type="button" class="btn btn-outline-success" onclick="addAskAcademy()">新增紀錄</button>
     `;
 }
 
+async function getAskacademyrecord(id) {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademyrecord/${id}`,
+        config
+    );
+    if (isOk) {
+        console.log(data);
+        document.querySelector("#modalLabel2").innerHTML = data.builder;
+        document.querySelector("#modalbody2").innerHTML = data.content;
+        document.querySelector("#modalfooter2").innerHTML = new Date(
+            data.created_at
+        ).toLocaleString();
+    }
+}
+
+async function addAskAcademy() {
+    const askTextarea = document.querySelector("#askTextarea");
+    askTextarea.classList.remove("border");
+    askTextarea.classList.remove("border-danger");
+
+    if (!askTextarea.value) {
+        askTextarea.classList.add("border");
+        askTextarea.classList.add("border-danger");
+        alert("追蹤事項不可以是空白");
+        return;
+    }
+
+    const config = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            academy_id: id,
+            content: askTextarea.value
+        })
+    };
+
+    const { isOk, data } = await submitObjApi("api/askacademyrecord", config);
+    if (isOk) {
+        document.querySelector("#modalBtn").click();
+    }
+}
+
 async function setChangeModal() {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademyupdate?academy_id=${id}`,
+        config
+    );
+
+    // 生成表格
+    const table = document.createElement("table");
+    table.className = "table table-hover";
+    const thead = document.createElement("thead");
+    table.appendChild(thead);
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    let tr = document.createElement("tr");
+    thead.appendChild(tr);
+    let th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "修改人";
+    th.className = "w-25";
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.textContent = "時間";
+    th.className = "w-75";
+
+    if (isOk && data.count > 0) {
+        const AskAcademy_list = data.AskAcademy_list;
+        AskAcademy_list.forEach((academy) => {
+            const time = new Date(academy.updated_at);
+            tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            let td = document.createElement("td");
+            tr.appendChild(td);
+            tr.onclick = () => getAskacademyupdate(academy.id);
+            td.textContent = academy.builder;
+
+            td = document.createElement("td");
+            tr.appendChild(td);
+            td.textContent = time.toLocaleString("zh-TW", {
+                hour12: false
+            });
+        });
+    }
+
     document.querySelector("#modalLabel").innerHTML = "修改紀錄";
-    document.querySelector("#modalbody").innerHTML = sampleBody;
-    document.querySelector("#modalfooter").innerHTML = "";
+    document.querySelector("#modalbody").innerHTML = "";
+    document.querySelector("#modalbody").appendChild(table);
+    document.querySelector("#modalfooter").innerHTML = `<button type="button" class="btn btn-outline-info" onclick="window.location.reload();"><i class="bi bi-arrow-repeat"></i></button>`;
+}
+
+async function getAskacademyupdate(id) {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        `api/askacademyupdate/${id}`,
+        config
+    );
+    if (isOk) {
+        setAskclassTable(data, true);
+        document.querySelector("#modalBtn").click();
+    }
 }

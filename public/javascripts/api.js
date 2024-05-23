@@ -1,5 +1,7 @@
 // 路徑
 const url = "http://172.16.150.25:8081";
+// 裝置
+let isWeb = window.innerWidth > 450;
 
 async function submitObjApi(routes, config) {
     const response = await fetch(`${url}/${routes}`, config);
