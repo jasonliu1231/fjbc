@@ -31,7 +31,6 @@ function createNewCanvas() {
         canvasContainer.appendChild(newCanvas);
         createNewPage(page);
     }
-    
 }
 
 function createNewPage(page) {
@@ -704,6 +703,7 @@ async function updateTrack(id, academy_id) {
     );
     if (isOk) {
         document.querySelector("#modalBtn2").click();
+        setTrackModal()
     }
 }
 
@@ -924,7 +924,9 @@ async function setChangeModal() {
     document.querySelector("#modalLabel").innerHTML = "修改紀錄";
     document.querySelector("#modalbody").innerHTML = "";
     document.querySelector("#modalbody").appendChild(table);
-    document.querySelector("#modalfooter").innerHTML = `<button type="button" class="btn btn-outline-info" onclick="window.location.reload();"><i class="bi bi-arrow-repeat"></i></button>`;
+    document.querySelector(
+        "#modalfooter"
+    ).innerHTML = `<button type="button" class="btn btn-outline-info" onclick="window.location.reload();"><i class="bi bi-arrow-repeat"></i></button>`;
 }
 
 async function getAskacademyupdate(id) {

@@ -34,7 +34,6 @@ async function searchAskacademytrack() {
     const { isOk, data } = await submitObjApi(url, config);
 
     if (isOk) {
-        console.log(data);
         if (isWeb) {
             creatTable(data);
         } else {
@@ -98,7 +97,9 @@ function creatCard(data) {
             ? `<i class="bi bi-exclamation-circle">未完成</i>`
             : `<i class="bi bi-x-circle">過期</i>`;
         htmlStr += `
-        <div class="card my-1 ${statusColor}" data-bs-toggle="modal" data-bs-target="#modal" onclick="getAskacademytrack(${track.id})">
+        <div class="card my-1 ${statusColor}" data-bs-toggle="modal" data-bs-target="#modal" onclick="getAskacademytrack(${
+            track.id
+        })">
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <h5 class="card-title">${track.academy.student_name}</h5>
@@ -106,8 +107,12 @@ function creatCard(data) {
           </div>
           <h6 class="card-subtitle text-body-secondary">${time.toLocaleString()}</h6>
           <p class="card-text mb-0">聯繫電話：${track.academy.Tel || ""}</p>
-          <p class="card-text mb-0">聯繫電話：${track.academy.mother_mobile || ""}</p>
-          <p class="card-text mb-0">聯繫電話：${track.academy.father_mobile || ""}</p>
+          <p class="card-text mb-0">聯繫電話：${
+              track.academy.mother_mobile || ""
+          }</p>
+          <p class="card-text mb-0">聯繫電話：${
+              track.academy.father_mobile || ""
+          }</p>
           <p class="card-text mb-0 text-truncate max-w-200"">追蹤內容：${
               track.track_content_create
           }</p>
@@ -215,5 +220,6 @@ async function updateTrack(id, academy_id) {
     );
     if (isOk) {
         document.querySelector("#modalBtn").click();
+        searchAskacademytrack();
     }
 }
