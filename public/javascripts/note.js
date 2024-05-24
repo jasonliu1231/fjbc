@@ -165,6 +165,8 @@ function setAskclassTable(data, disabled) {
             if (element != null) {
                 if (disabled) {
                     element.setAttribute("disabled", "disabled");
+                } else {
+                    element.removeAttribute("disabled");
                 }
                 element.value = data[itemName];
             }
@@ -181,6 +183,8 @@ function setAskclassTable(data, disabled) {
                     source_list.forEach((e) => {
                         if (disabled) {
                             e.setAttribute("disabled", "disabled");
+                        } else {
+                            e.removeAttribute("disabled");
                         }
                         if (e.value == i.source_name) {
                             e.checked = true;
@@ -197,6 +201,8 @@ function setAskclassTable(data, disabled) {
                     course_list.forEach((e) => {
                         if (disabled) {
                             e.setAttribute("disabled", "disabled");
+                        } else {
+                            e.removeAttribute("disabled");
                         }
                         if (e.value == i.course_name) {
                             e.checked = true;
@@ -207,12 +213,16 @@ function setAskclassTable(data, disabled) {
         }
         // 英聽成績
         if (itemName == "english_listening") {
+            const english_listening = document.querySelectorAll(
+                "input[name='english_listening']"
+            );
             if (disabled) {
-                const english_listening = document.querySelectorAll(
-                    "input[name='english_listening']"
-                );
                 english_listening.forEach((e) => {
                     e.setAttribute("disabled", "disabled");
+                });
+            } else {
+                english_listening.forEach((e) => {
+                    e.removeAttribute("disabled");
                 });
             }
             if (data[itemName] != null) {
@@ -223,12 +233,16 @@ function setAskclassTable(data, disabled) {
         }
         // 詢班方式
         if (itemName == "inquiry_method") {
+            const inquiry_method = document.querySelectorAll(
+                "input[name='inquiry_method']"
+            );
             if (disabled) {
-                const inquiry_method = document.querySelectorAll(
-                    "input[name='inquiry_method']"
-                );
                 inquiry_method.forEach((e) => {
                     e.setAttribute("disabled", "disabled");
+                });
+            } else {
+                inquiry_method.forEach((e) => {
+                    e.removeAttribute("disabled");
                 });
             }
             if (data[itemName] != null) {
@@ -703,7 +717,7 @@ async function updateTrack(id, academy_id) {
     );
     if (isOk) {
         document.querySelector("#modalBtn2").click();
-        setTrackModal()
+        setTrackModal();
     }
 }
 
@@ -926,7 +940,7 @@ async function setChangeModal() {
     document.querySelector("#modalbody").appendChild(table);
     document.querySelector(
         "#modalfooter"
-    ).innerHTML = `<button type="button" class="btn btn-outline-info" onclick="window.location.reload();"><i class="bi bi-arrow-repeat"></i></button>`;
+    ).innerHTML = `<button type="button" class="btn btn-outline-info" onclick="resetPage()"><i class="bi bi-arrow-repeat"></i></button>`;
 }
 
 async function getAskacademyupdate(id) {
@@ -944,4 +958,9 @@ async function getAskacademyupdate(id) {
         setAskclassTable(data, true);
         document.querySelector("#modalBtn").click();
     }
+}
+
+async function resetPage() {
+    getAskacademyInfo(id);
+    document.querySelector("#modalBtn").click();
 }
