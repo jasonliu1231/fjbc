@@ -1,10 +1,8 @@
-// 路徑
-const url = "http://172.16.150.25:8081";
 // 裝置
 let isWeb = window.innerWidth > 450;
 
 async function submitObjApi(routes, config) {
-    const response = await fetch(`${url}/${routes}`, config);
+    const response = await fetch(`${routes}`, config);
     const isOk = response.ok;
     let data = {};
     if (isOk) {
@@ -15,7 +13,7 @@ async function submitObjApi(routes, config) {
 }
 
 async function submitImageApi(routes, config) {
-    const response = await fetch(`${url}/${routes}`, config);
+    const response = await fetch(`${routes}`, config);
     const isOk = response.ok;
     let data = {};
     if (isOk) {
@@ -23,4 +21,14 @@ async function submitImageApi(routes, config) {
     }
 
     return { isOk, data };
+}
+
+function logout() {
+    const config = {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    };
+    fetch(logurl + "/api/auth/logout", config);
 }

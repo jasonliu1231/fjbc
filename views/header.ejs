@@ -8,9 +8,19 @@
         font-size: 14px;
     }
 </style>
+<script>
+    // 環境變數與參數
+    const apiurl = '<%=url.api %>';
+    const logurl = '<%=url.log %>';
+    const token = '<%=token %>';
+    const currentName = '<%=name %>';
+</script>
 <div class="p-1 fixed-top d-flex flex-column" style="width: 60px;">
-    <a href="/admin/track" class="headerIcon badge text-bg-secondary <%=track%>"><i class="bi bi-search">追蹤</i></a>
-    <a href="/admin/askclass" class="headerIcon badge text-bg-secondary <%=askclass%>"><i
+    <a href="/admin/track" class="headerIcon badge text-bg-secondary <%=herderHover.track%>"><i class="bi bi-search">追蹤</i></a>
+    <a href="/admin/askclass" class="headerIcon badge text-bg-secondary <%=herderHover.askclass%>"><i
             class="bi bi-telephone-inbound">問班</i></a>
-    <a href="/admin" class="headerIcon badge text-bg-secondary"><i class="bi bi-telephone-inbound">登出</i></a>
+    <a href="/admin/responsibility" class="headerIcon badge text-bg-secondary <%=herderHover.responsibility%>"><i
+            class="bi bi-person-bounding-box">主責</i></a>
+    <a href="/admin" class="headerIcon badge text-bg-secondary" onclick="logout()"><i
+            class="bi bi-box-arrow-right">登出</i></a>
 </div>

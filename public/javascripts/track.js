@@ -23,11 +23,12 @@ async function searchAskacademytrack() {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
 
-    let url = `api/askacademytrack?start_date=${dateStatr}&end_date=${dateEnd}`;
+    let url = apiurl + `/api/askacademytrack?start_date=${dateStatr}&end_date=${dateEnd}`;
     if (keyword != "") {
         url += `&param=${keyword}`;
     }
@@ -131,11 +132,12 @@ async function getAskacademytrack(id) {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademytrack/${id}`,
+        apiurl + `/api/askacademytrack/${id}`,
         config
     );
     if (isOk) {
@@ -205,7 +207,8 @@ async function updateTrack(id, academy_id) {
     const config = {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
             academy_id: academy_id,
@@ -215,7 +218,7 @@ async function updateTrack(id, academy_id) {
     };
 
     const { isOk, data } = await submitObjApi(
-        `api/askacademytrack/${id}`,
+        apiurl + `/api/askacademytrack/${id}`,
         config
     );
     if (isOk) {

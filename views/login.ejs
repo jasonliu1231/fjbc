@@ -4,6 +4,11 @@
     <%-include('head') %>
     <title>教職員登入</title>
 </head>
+<script>
+    // 路徑
+    const apiurl = '<%=url.api %>';
+    const logurl = '<%=url.log %>';
+</script>
 <body>
     <div class='container p-5'>
         <div class="card mx-auto text-center" style="width: 18rem;">
@@ -12,12 +17,13 @@
                 <h5 class="card-title">會員登入</h5>
                 <div class="input-group p-1">
                     <span class="input-group-text">登入帳號</span>
-                    <input type="text" aria-label="student_name" id="student_name" class="form-control" />
+                    <input type="text" aria-label="username" id="username" class="form-control" />
                 </div>
                 <div class="input-group p-1">
                     <span class="input-group-text">登入密碼</span>
-                    <input type="text" aria-label="student_name" id="student_name" class="form-control" />
+                    <input type="password" aria-label="password" id="password" class="form-control" aria-describedby="passwordHelpBlock"/>
                 </div>
+                <div id="passwordHelpBlock" class="form-text text-danger hidden">帳號密碼錯誤</div>
                 <button class="btn btn-primary" onclick="login()">登入</button>
             </div>
         </div>

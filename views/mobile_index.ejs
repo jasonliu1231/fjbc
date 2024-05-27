@@ -10,6 +10,7 @@
         white-space: nowrap;
       }
     </style>
+    <script>const apiurl = '<%= apiurl %>';</script>
     <title>問班表格</title>
 </head>
 
@@ -63,35 +64,35 @@
         <input type="text" aria-label="address" id="address" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">父親姓名</span>
+        <span class="input-group-text">家長1姓名</span>
         <input type="text" aria-label="father_name" id="father_name" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">父親手機</span>
+        <span class="input-group-text">家長1手機</span>
         <input type="text" aria-label="father_mobile" id="father_mobile" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">父親職業</span>
+        <span class="input-group-text">家長1職業</span>
         <input type="text" aria-label="father_profession" id="father_profession" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">公司電話</span>
+        <span class="input-group-text">家長1公司電話</span>
         <input type="text" aria-label="father_office_tel" id="father_office_tel" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">母親姓名</span>
+        <span class="input-group-text">家長2姓名</span>
         <input type="text" aria-label="mother_name" id="mother_name" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">母親手機</span>
+        <span class="input-group-text">家長2手機</span>
         <input type="text" aria-label="mother_mobile" id="mother_mobile" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">母親職業</span>
+        <span class="input-group-text">家長2職業</span>
         <input type="text" aria-label="mother_profession" id="mother_profession" class="form-control" />
       </div>
       <div class="input-group">
-        <span class="input-group-text">公司電話</span>
+        <span class="input-group-text">家長2公司電話</span>
         <input type="text" aria-label="mother_office_tel" id="mother_office_tel" class="form-control" />
       </div>
       <div class="input-group">
@@ -417,10 +418,10 @@
           </div>
         </div>
       </div>
-      <div class="input-group">
+      <!-- <div class="input-group">
         <span class="input-group-text">接待老師</span>
         <input type="text" aria-label="reception" id="reception" class="form-control" />
-      </div>
+      </div> -->
       <p class="px-3 link-danger">已同意本表單收集之個人資料使用權，僅於「多易文理補習班」使用，非經當事人同意，不轉作其他用途。</p>
       <div class="d-grid gap-2">
         <button type="button" class="btn btn-success" onclick="submit()">儲存</button>

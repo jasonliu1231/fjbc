@@ -136,16 +136,46 @@ window.addEventListener("load", () => {
     id = urlParams.get("id");
     getAskacademyInfo(id);
     getAskacademyImage(id);
+    getTeacher();
 });
+
+async function getTeacher() {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        apiurl + `/api/askacademy/teachers`,
+        config
+    );
+    if (isOk) {
+        let html = `<option value=""></option>`;
+        data.forEach((name) => {
+            html += `<option value="${name}">${name}</option>`;
+        });
+        const primary_caregiver = document.querySelector("#primary_caregiver");
+        console.log(primary_caregiver);
+        primary_caregiver.innerHTML = html;
+        const secondary_caregiver = document.querySelector("#secondary_caregiver");
+        secondary_caregiver.innerHTML = html;
+    }
+}
 
 async function getAskacademyInfo(id) {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
-    const { isOk, data } = await submitObjApi(`api/askacademy/${id}`, config);
+    const { isOk, data } = await submitObjApi(
+        apiurl + `/api/askacademy/${id}`,
+        config
+    );
     if (isOk) {
         setAskclassTable(data, false);
     }
@@ -259,11 +289,12 @@ async function getAskacademyImage(id) {
     let config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     let { isOk, data } = await submitObjApi(
-        `api/askacademy/image?ask_asademy_id=${id}&image_id=0`,
+        apiurl + `/api/askacademy/image?ask_asademy_id=${id}&image_id=0`,
         config
     );
     if (isOk) {
@@ -272,7 +303,7 @@ async function getAskacademyImage(id) {
             method: "GET",
             responseType: "arraybuffer",
             headers: {
-                // "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             }
         };
         for (let i = 1; i <= len; i++) {
@@ -281,7 +312,8 @@ async function getAskacademyImage(id) {
                 createNewCanvas();
             }
             let { isOk, data } = await submitImageApi(
-                `api/askacademy/image?ask_asademy_id=${id}&image_id=${i}`,
+                apiurl +
+                    `/api/askacademy/image?ask_asademy_id=${id}&image_id=${i}`,
                 config
             );
 
@@ -327,13 +359,13 @@ function saveAsImage(currentPageId) {
         const config = {
             method: "POST",
             headers: {
-                // 設定後要自行設定邊界。所以註解掉
-                // "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`
             },
             body: formData
         };
         const { isOk, data } = await submitObjApi(
-            `api/askacademy/image?ask_asademy_id=${id}&image_id=${index}`,
+            apiurl +
+                `/api/askacademy/image?ask_asademy_id=${id}&image_id=${index}`,
             config
         );
     });
@@ -465,7 +497,11 @@ async function submit() {
     )
         ? document.querySelector("input[name='inquiry_method']:checked").value
         : null;
-    const reception = document.querySelector("#reception").value || null;
+    // const reception = document.querySelector("#reception").value || null;
+    const primary_caregiver =
+        document.querySelector("#primary_caregiver").value || null;
+    const secondary_caregiver =
+        document.querySelector("#secondary_caregiver").value || null;
 
     const info = {
         student_name,
@@ -520,9 +556,11 @@ async function submit() {
         activity_status7_2,
         activity_status7_3,
         inquiry_method,
-        reception,
+        // reception,
         course_list,
-        source_list
+        source_list,
+        primary_caregiver,
+        secondary_caregiver
     };
     if (isChanged) {
         saveAsImage(currentPageId); // 固定存取當前畫布
@@ -530,11 +568,15 @@ async function submit() {
     const config = {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(info)
     };
-    const { isOk, data } = await submitObjApi(`api/askacademy/${id}`, config);
+    const { isOk, data } = await submitObjApi(
+        apiurl + `/api/askacademy/${id}`,
+        config
+    );
     if (isOk) {
         window.location.reload();
     }
@@ -544,11 +586,12 @@ async function setTrackModal() {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademytrack?academy_id=${id}`,
+        apiurl + `/api/askacademytrack?academy_id=${id}`,
         config
     );
 
@@ -635,11 +678,12 @@ async function getAskacademytrack(id) {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademytrack/${id}`,
+        apiurl + `/api/askacademytrack/${id}`,
         config
     );
     if (isOk) {
@@ -702,7 +746,8 @@ async function updateTrack(id, academy_id) {
     const config = {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
             academy_id: academy_id,
@@ -712,7 +757,7 @@ async function updateTrack(id, academy_id) {
     };
 
     const { isOk, data } = await submitObjApi(
-        `api/askacademytrack/${id}`,
+        apiurl + `/api/askacademytrack/${id}`,
         config
     );
     if (isOk) {
@@ -746,7 +791,8 @@ async function addAskacademytrack() {
     const config = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
             academy_id: id,
@@ -755,7 +801,10 @@ async function addAskacademytrack() {
         })
     };
 
-    const { isOk, data } = await submitObjApi("api/askacademytrack", config);
+    const { isOk, data } = await submitObjApi(
+        apiurl + "/api/askacademytrack",
+        config
+    );
     if (isOk) {
         document.querySelector("#modalBtn").click();
     }
@@ -765,11 +814,12 @@ async function setAskclassModal() {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademyrecord?academy_id=${id}`,
+        apiurl + `/api/askacademyrecord?academy_id=${id}`,
         config
     );
 
@@ -792,7 +842,7 @@ async function setAskclassModal() {
     th.className = "w-20";
     th = document.createElement("th");
     tr.appendChild(th);
-    th.textContent = "追蹤內容";
+    th.textContent = "問班內容";
 
     if (isOk && data.count > 0) {
         const AskAcademy_list = data.AskAcademy_list;
@@ -840,15 +890,15 @@ async function getAskacademyrecord(id) {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademyrecord/${id}`,
+        apiurl + `/api/askacademyrecord/${id}`,
         config
     );
     if (isOk) {
-        console.log(data);
         document.querySelector("#modalLabel2").innerHTML = data.builder;
         document.querySelector("#modalbody2").innerHTML = data.content;
         document.querySelector("#modalfooter2").innerHTML = new Date(
@@ -872,7 +922,8 @@ async function addAskAcademy() {
     const config = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
             academy_id: id,
@@ -880,7 +931,10 @@ async function addAskAcademy() {
         })
     };
 
-    const { isOk, data } = await submitObjApi("api/askacademyrecord", config);
+    const { isOk, data } = await submitObjApi(
+        apiurl + "/api/askacademyrecord",
+        config
+    );
     if (isOk) {
         document.querySelector("#modalBtn").click();
     }
@@ -890,11 +944,12 @@ async function setChangeModal() {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademyupdate?academy_id=${id}`,
+        apiurl + `/api/askacademyupdate?academy_id=${id}`,
         config
     );
 
@@ -947,11 +1002,12 @@ async function getAskacademyupdate(id) {
     const config = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     };
     const { isOk, data } = await submitObjApi(
-        `api/askacademyupdate/${id}`,
+        apiurl + `/api/askacademyupdate/${id}`,
         config
     );
     if (isOk) {

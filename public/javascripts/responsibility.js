@@ -1,27 +1,34 @@
 window.addEventListener("load", async () => {
-    // 當前時間
-    const date = new Date();
-    const today = `${date.getFullYear()}-${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, 0)}-${date.getDate().toString().padStart(2, 0)}`;
-    const thisMonth = `${date.getFullYear()}-${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, 0)}-01`;
-    document.querySelector("#dateStatr").value = thisMonth;
-    document.querySelector("#dateEnd").value = today;
-
     searchAskacademy();
+    getTeacher();
 });
+
+async function getTeacher() {
+    const config = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    };
+    const { isOk, data } = await submitObjApi(
+        apiurl + `/api/askacademy/teachers`,
+        config
+    );
+    if (isOk) {
+        let html = `<option value=""></option>`;
+        data.forEach((name) => {
+            html += `<option value="${name}">${name}</option>`;
+        });
+        const primary_caregiver = document.querySelector("#keyword");
+        primary_caregiver.innerHTML = html;
+    }
+}
 
 async function searchAskacademy() {
     const dateStatr = document.querySelector("#dateStatr").value;
     const dateEnd = document.querySelector("#dateEnd").value;
-    const keyword = document.querySelector("#keyword").value;
-
-    if (!!!dateStatr || !!!dateEnd) {
-        alert("時間不可以為空白");
-        return;
-    }
+    const keyword = document.querySelector("#keyword").value || currentName;
 
     const config = {
         method: "GET",
@@ -31,24 +38,41 @@ async function searchAskacademy() {
         }
     };
 
-    let url =
-        apiurl + `/api/askacademy?start_date=${dateStatr}&end_date=${dateEnd}`;
-    if (keyword != "") {
-        url += `&param=${keyword}`;
+    let url = apiurl + `/api/askacademy?`;
+    if (dateStatr != "" && dateEnd != "") {
+        url += `start_date=${dateStatr}&end_date=${dateEnd}&`;
     }
-    const { isOk, data } = await submitObjApi(url, config);
+
+    const param1 = url + `teacher1_param=${keyword}`;
+    let { isOk, data } = await submitObjApi(param1, config);
 
     if (isOk) {
         if (isWeb) {
-            creatTable(data);
+            creatTable(data, true);
         } else {
-            creatCard(data);
+            creatCard(data, true);
+        }
+    }
+
+    const param2 = url + `teacher2_param=${keyword}`;
+    ({ isOk, data } = await submitObjApi(param2, config));
+
+    if (isOk) {
+        if (isWeb) {
+            creatTable(data, false);
+        } else {
+            creatCard(data, false);
         }
     }
 }
 
-function creatTable(data) {
-    const element = document.querySelector("#list");
+function creatTable(data, isPrimary) {
+    let element;
+    if (isPrimary) {
+        element = document.querySelector("#primary_list");
+    } else {
+        element = document.querySelector("#secondary_list");
+    }
     element.innerHTML = "";
     let htmlStr = "";
     data.AskAcademy_list.forEach((item) => {
@@ -64,7 +88,7 @@ function creatTable(data) {
         });
         htmlStr += `
         <tr onclick="toNote(${item.id})">
-          <td>
+          <td class="${isPrimary ? "text-bg-primary" : "text-bg-info"}">
             <div>${new Date(item.created_at).toLocaleDateString() || ""}</div>
             <div>${
                 new Date(item.created_at).toLocaleTimeString("zh-TW", {
@@ -72,12 +96,18 @@ function creatTable(data) {
                 }) || ""
             }</div>
         </td>
-          <td>${item.student_name || ""}</td>
-          <td><div>家裡：${item.tel || ""}</div>爸爸：${
+          <td class="${isPrimary ? "text-bg-primary" : "text-bg-info"}">${
+            item.student_name || ""
+        }</td>
+          <td class="${
+              isPrimary ? "text-bg-primary" : "text-bg-info"
+          }"><div>家裡：${item.tel || ""}</div>爸爸：${
             item.father_mobile || ""
         }<div></div><div>媽媽：${item.mother_mobile || ""}</div></td>
-          <td>${course_list.join(", ")}</td>
-          <td>
+          <td class="${
+              isPrimary ? "text-bg-primary" : "text-bg-info"
+          }">${course_list.join(", ")}</td>
+          <td class="${isPrimary ? "text-bg-primary" : "text-bg-info"}">
             <div>${
                 academy_track_list.length > 0
                     ? new Date(
@@ -95,7 +125,9 @@ function creatTable(data) {
                     : ""
             }</div>
         </td>
-        <td class="text-truncate max-w-200">${
+        <td class="${
+            isPrimary ? "text-bg-primary" : "text-bg-info"
+        } text-truncate max-w-200">${
             academy_track_list.length
                 ? academy_track_list[0].track_content_create
                 : ""
@@ -106,8 +138,13 @@ function creatTable(data) {
     element.innerHTML = htmlStr;
 }
 
-function creatCard(data) {
-    const element = document.querySelector("#list");
+function creatCard(data, isPrimary) {
+    let element;
+    if (isPrimary) {
+        element = document.querySelector("#primary_list");
+    } else {
+        element = document.querySelector("#secondary_list");
+    }
     element.innerHTML = "";
     let htmlStr = "";
     data.AskAcademy_list.forEach((item) => {
@@ -122,7 +159,9 @@ function creatCard(data) {
             course_list.push(i.course_name);
         });
         htmlStr += `
-        <div class="card my-1" onclick="toNote(${item.id})">
+        <div class="card my-1 ${
+            isPrimary ? "text-bg-primary" : "text-bg-info"
+        }" onclick="toNote(${item.id})">
           <div class="card-body">
             <h5 class="card-title">${item.student_name || ""}</h5>
             <p class="card-text mb-0">填表日期：${

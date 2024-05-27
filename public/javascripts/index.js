@@ -120,7 +120,7 @@ async function submit() {
     )
         ? document.querySelector("input[name='inquiry_method']:checked").value
         : null;
-    const reception = document.querySelector("#reception").value || null;
+    // const reception = document.querySelector("#reception").value || null;
 
     let element = document.querySelector("#student_name");
     element.classList.remove("border");
@@ -199,7 +199,7 @@ async function submit() {
         activity_status7_2,
         activity_status7_3,
         inquiry_method,
-        reception,
+        // reception,
         course_list,
         source_list
     };
@@ -212,8 +212,12 @@ async function submit() {
         body: JSON.stringify(info)
     };
 
-    const { isOk, data } = await submitObjApi("api/askacademy", config);
+    const { isOk, data } = await submitObjApi(
+        apiurl + "/api/askacademy",
+        config
+    );
     if (isOk) {
+        alert("新增完成！");
         window.location.reload();
         // TODO: 要轉去哪邊？
     } else {
