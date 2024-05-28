@@ -157,7 +157,6 @@ async function getTeacher() {
             html += `<option value="${name}">${name}</option>`;
         });
         const primary_caregiver = document.querySelector("#primary_caregiver");
-        console.log(primary_caregiver);
         primary_caregiver.innerHTML = html;
         const secondary_caregiver = document.querySelector("#secondary_caregiver");
         secondary_caregiver.innerHTML = html;
@@ -497,7 +496,8 @@ async function submit() {
     )
         ? document.querySelector("input[name='inquiry_method']:checked").value
         : null;
-    // const reception = document.querySelector("#reception").value || null;
+    const reception = document.querySelector("#reception").value || null;
+    const Remark = document.querySelector("#Remark").value || null;
     const primary_caregiver =
         document.querySelector("#primary_caregiver").value || null;
     const secondary_caregiver =
@@ -525,7 +525,7 @@ async function submit() {
         mother_profession,
         holiday_time,
         Weekday_time,
-        // Remark,
+        Remark,
         course_extend,
         exam_ranking,
         exam_ranking1,
@@ -556,7 +556,7 @@ async function submit() {
         activity_status7_2,
         activity_status7_3,
         inquiry_method,
-        // reception,
+        reception,
         course_list,
         source_list,
         primary_caregiver,
